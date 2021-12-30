@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <Model id="_hjrMkGIyEey5At38hpjUsA" name="model">
+    <packageImport type="PackageImport" id="_hkUs0GIyEey5At38hpjUsA">
+      <importedPackage type="Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement type="Package" id="_aUyrcGZNEeyQRaS3pvwf2Q" name="Voyage" dtype="BoundedContext"  annotion="">
+      <DownStreamContext upStreamContextName="Location" downStreamContextType="DownStreamContextType.Default"/>
+      <UpStreamContext downStreamContextName="Cargo" upStreamContextType="UpStreamContextType.Default"/>
+      <packagedElement type="Class" id="_fMqZUGZNEeyQRaS3pvwf2Q" name="CarrierMovement" dtype="ValueObject"  annotion="@AggregatePart(aggregateRootType = Voyage.class)">
+        <ownedAttribute type="Property" id="_ZYkW8GZREeyQRaS3pvwf2Q" name="departmentLocation">
+          <type type="Location"/>
+        </ownedAttribute>        <ownedAttribute type="Property" id="_LfwogGZbEeyQRaS3pvwf2Q" name="arriveLocation">
+          <type type="Location"/>
+        </ownedAttribute>        <ownedAttribute type="Property" id="_hH2RoGZjEeyQRaS3pvwf2Q" name="departureTime">
+          <type type="Date"/>
+        </ownedAttribute>
+        <ownedAttribute type="Property" id="_oD8hEGZjEeyQRaS3pvwf2Q" name="arriveTime">
+          <type type="Date"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Class" id="_iVaS8GZNEeyQRaS3pvwf2Q" name="Voyage" dtype="Entity" identifier="voyageNumber" annotion="@AggregateRoot">
+        <ownedAttribute type="Property" id="_lr2qUGZNEeyQRaS3pvwf2Q" name="voyageNumber">
+          <type type="String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Dependency" id="_0ireMGZZEeyQRaS3pvwf2Q" client="_fMqZUGZNEeyQRaS3pvwf2Q" supplier="_m_zhUGZUEeyQRaS3pvwf2Q"/>
+      <packagedElement type="Class" id="_viGp0GZlEeyQRaS3pvwf2Q" name="VoyageFactory" dtype="Factory" creatingDomainObject="Voyage" annotion="">
+        <ownedOperation type="Operation" id="_1XJxoGZlEeyQRaS3pvwf2Q" name="createVoyage"/>
+      </packagedElement>
+      <packagedElement type="Dependency" id="_7QKMYGZlEeyQRaS3pvwf2Q" client="_viGp0GZlEeyQRaS3pvwf2Q" supplier="_iVaS8GZNEeyQRaS3pvwf2Q"/>
+    </packagedElement>
+    <packagedElement type="Association" id="_U4IRoGZREeyQRaS3pvwf2Q"/>
+    <packagedElement type="Package" id="_iIZtgGZUEeyQRaS3pvwf2Q" name="Location" dtype="BoundedContext"  annotion="">
+      <UpStreamContext downStreamContextName="LocationShare" upStreamContextType="UpStreamContextType.Default"/>
+      <UpStreamContext downStreamContextName="Voyage" upStreamContextType="UpStreamContextType.Default"/>
+      <packagedElement type="Class" id="_m_zhUGZUEeyQRaS3pvwf2Q" name="LocationService" dtype="DomainService"  annotion="">
+        <ownedOperation type="Operation" id="_SyBSAGZXEeyQRaS3pvwf2Q" name="resolveByPortCode">
+          <ownedParameter type="Parameter" id="_o2lVYGZXEeyQRaS3pvwf2Q" name="code">
+            <type type="String"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement type="Class" id="_vzO-cGZXEeyQRaS3pvwf2Q" name="Location" dtype="Entity" identifier="portCode" annotion="">
+        <ownedAttribute type="Property" id="_z23L8GZXEeyQRaS3pvwf2Q" name="portCode">
+          <type type="String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Dependency" id="_dsWmsGZZEeyQRaS3pvwf2Q" client="_m_zhUGZUEeyQRaS3pvwf2Q" supplier="_vzO-cGZXEeyQRaS3pvwf2Q"/>
+    </packagedElement>
+    <packagedElement type="Package" id="_-rxOEGZZEeyQRaS3pvwf2Q" name="LocationShare" dtype="SharedKernel" oneContext = "Location" theOtherContext = "Cargo" annotion="">
+      <DownStreamContext upStreamContextName="Location" downStreamContextType="DownStreamContextType.Default"/>
+      <packagedElement type="Class" id="_OfEHsGZaEeyQRaS3pvwf2Q" name="LocationShared" dtype="ValueObject"  annotion="">
+        <ownedAttribute type="Property" id="_SI8_gGZaEeyQRaS3pvwf2Q" name="portCode">
+          <type type="String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Dependency" id="_cNNSsGZaEeyQRaS3pvwf2Q" client="_OfEHsGZaEeyQRaS3pvwf2Q" supplier="_vzO-cGZXEeyQRaS3pvwf2Q"/>
+    </packagedElement>
+    <packagedElement type="Package" id="_pkLIQGZkEeyQRaS3pvwf2Q" name="Customer" dtype="BoundedContext"  annotion="">
+      <UpStreamContext downStreamContextName="Cargo" upStreamContextType="UpStreamContextType.Default"/>
+      <UpStreamContext downStreamContextName="CustomerShare" upStreamContextType="UpStreamContextType.Default"/>
+      <packagedElement type="Class" id="_XJ-BUGZlEeyQRaS3pvwf2Q" name="Customer" dtype="Entity" identifier="customerId" annotion="">
+        <ownedAttribute type="Property" id="_Yfd0oGZlEeyQRaS3pvwf2Q" name="name">
+          <type type="String"/>
+        </ownedAttribute>
+        <ownedAttribute type="Property" id="_dLKuwGZlEeyQRaS3pvwf2Q" name="customerId">
+          <type type="String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Class" id="_wlsi4GZnEeyQRaS3pvwf2Q" name="CustomerRepository" dtype="Repository" accessingDomainObject="Customer" annotion="">
+        <ownedOperation type="Operation" id="_dP7yoGZoEeyQRaS3pvwf2Q" name="findByName">
+          <ownedParameter type="Parameter" id="_f8A-YGZoEeyQRaS3pvwf2Q" name="name">
+            <type type="String"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation type="Operation" id="_ggdvQGZoEeyQRaS3pvwf2Q" name="findByCustomerId">
+          <ownedParameter type="Parameter" id="_V8dIgGZpEeyQRaS3pvwf2Q" name="customerId">
+            <type type="String"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement type="Dependency" id="_vwu-4GZpEeyQRaS3pvwf2Q" client="_wlsi4GZnEeyQRaS3pvwf2Q" supplier="_XJ-BUGZlEeyQRaS3pvwf2Q"/>
+    </packagedElement>
+    <packagedElement type="Package" id="_x64iQGZpEeyQRaS3pvwf2Q" name="CustomerShare" dtype="SharedKernel" oneContext = "Cargo" theOtherContext = "Customer" annotion="">
+      <DownStreamContext upStreamContextName="Customer" downStreamContextType="DownStreamContextType.Default"/>
+      <UpStreamContext downStreamContextName="Cargo" upStreamContextType="UpStreamContextType.Default"/>
+      <packagedElement type="Class" id="_UWNG8GZqEeyQRaS3pvwf2Q" name="CustomerShare" dtype="ValueObject"  annotion="">
+        <ownedAttribute type="Property" id="_kn2JcGZqEeyQRaS3pvwf2Q" name="CustomerId">
+          <type type="String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Dependency" id="_97ZRUGZqEeyQRaS3pvwf2Q" client="_UWNG8GZqEeyQRaS3pvwf2Q" supplier="_XJ-BUGZlEeyQRaS3pvwf2Q"/>
+    </packagedElement>
+    <packagedElement type="Package" id="_KItiwGZrEeyQRaS3pvwf2Q" name="Cargo" dtype="BoundedContext"  annotion="">
+      <DownStreamContext upStreamContextName="Customer" downStreamContextType="DownStreamContextType.Default"/>
+      <DownStreamContext upStreamContextName="CustomerShare" downStreamContextType="DownStreamContextType.Default"/>
+      <DownStreamContext upStreamContextName="Voyage" downStreamContextType="DownStreamContextType.Default"/>
+      <packagedElement type="Class" id="_YsQrwGZrEeyQRaS3pvwf2Q" name="Cargo" dtype="Entity" identifier="trackingId" annotion="@AggregateRoot">
+        <ownedAttribute type="Property" id="_lwzOMGZtEeyQRaS3pvwf2Q" name="trackingId">
+          <type type="String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Class" id="__unbEGZtEeyQRaS3pvwf2Q" name="Itinerary" dtype="Entity" identifier="itineraryNumber" annotion="@AggregateRoot">
+        <ownedAttribute type="Property" id="_MARZ8GZuEeyQRaS3pvwf2Q" name="itineraryNumber">
+          <type type="String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Class" id="_Pf2CsGZvEeyQRaS3pvwf2Q" name="Leg" dtype="ValueObject"  annotion="@AggregatePart(aggregateRootType = Itinerary.class)">
+        <ownedAttribute type="Property" id="_QOG24GZvEeyQRaS3pvwf2Q" name="loadTime">
+          <type type="Date"/>
+        </ownedAttribute>
+        <ownedAttribute type="Property" id="_dCe2YGZxEeyQRaS3pvwf2Q" name="unloadTime">
+          <type type="Date"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Dependency" id="_3_4Q8GZxEeyQRaS3pvwf2Q" client="_YsQrwGZrEeyQRaS3pvwf2Q" supplier="_UWNG8GZqEeyQRaS3pvwf2Q"/>
+      <packagedElement type="Dependency" id="_BrYF4GZyEeyQRaS3pvwf2Q" client="_YsQrwGZrEeyQRaS3pvwf2Q" supplier="_wlsi4GZnEeyQRaS3pvwf2Q"/>
+      <packagedElement type="Class" id="_Fq-H8GZyEeyQRaS3pvwf2Q" name="CargoRepository" dtype="Repository" accessingDomainObject="Cargo" annotion="">
+        <ownedOperation type="Operation" id="_FWBrUGZ1EeyQRaS3pvwf2Q" name="findByName">
+          <ownedParameter type="Parameter" id="_IhF5IGZ1EeyQRaS3pvwf2Q" name="name">
+            <type type="String"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation type="Operation" id="_JrlWUGZ1EeyQRaS3pvwf2Q" name="findByTrackingId" visibility="public">
+          <ownedParameter type="Parameter" id="_PAiBwGZ1EeyQRaS3pvwf2Q" name="trackingId">
+            <type type="String"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement type="Dependency" id="_JcmmgGZyEeyQRaS3pvwf2Q" client="_Fq-H8GZyEeyQRaS3pvwf2Q" supplier="_YsQrwGZrEeyQRaS3pvwf2Q"/>
+      <packagedElement type="Class" id="_XJY_QGZ1EeyQRaS3pvwf2Q" name="HandlingEvent" dtype="Entity" identifier="handlingEventId" annotion="@AggregatePart(aggregateRootType = Cargo.class)">
+        <ownedAttribute type="Property" id="_cxxkEGZ1EeyQRaS3pvwf2Q" name="completionTime">
+          <type type="Date"/>
+        </ownedAttribute>
+        <ownedAttribute type="Property" id="_isxi4GZ1EeyQRaS3pvwf2Q" name="handlingEventId">
+          <type type="String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement type="Class" id="_qORI8GZ2EeyQRaS3pvwf2Q" name="DeliverySepcification" dtype="ValueObject"  annotion="@AggregatePart(aggregateRootType = Cargo.class)">
+        <ownedAttribute type="Property" id="_5G2t0GZ2EeyQRaS3pvwf2Q" name="arriveDeadline">
+          <type type="Date"/>
+        </ownedAttribute>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement type="Association" id="_u2kqcGZuEeyQRaS3pvwf2Q" visibility="private" memberEnd="_u2lRgmZuEeyQRaS3pvwf2Q _u2lRhWZuEeyQRaS3pvwf2Q">
+      <eAnnotations type="ecore:EAnnotation" id="_u2lRgGZuEeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
+        <details type="ecore:EStringToStringMapEntry" id="_u2lRgWZuEeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+    </packagedElement>
+    <packagedElement type="Association" id="_Fcte8GZxEeyQRaS3pvwf2Q" memberEnd="_FcuGAmZxEeyQRaS3pvwf2Q _FcuGBWZxEeyQRaS3pvwf2Q">
+      <eAnnotations type="ecore:EAnnotation" id="_FcuGAGZxEeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
+        <details type="ecore:EStringToStringMapEntry" id="_FcuGAWZxEeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+    </packagedElement>
+    <packagedElement type="Association" id="_TMM7gGZ2EeyQRaS3pvwf2Q" memberEnd="_TMNikmZ2EeyQRaS3pvwf2Q _TMR0AGZ2EeyQRaS3pvwf2Q">
+      <eAnnotations type="ecore:EAnnotation" id="_TMNikGZ2EeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
+        <details type="ecore:EStringToStringMapEntry" id="_TMNikWZ2EeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+    </packagedElement>
+    <packagedElement type="Association" id="_jCTRgGZ2EeyQRaS3pvwf2Q" visibility="package" memberEnd="_jCTRg2Z2EeyQRaS3pvwf2Q _jCT4kmZ2EeyQRaS3pvwf2Q">
+      <eAnnotations type="ecore:EAnnotation" id="_jCTRgWZ2EeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
+        <details type="ecore:EStringToStringMapEntry" id="_jCTRgmZ2EeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+    </packagedElement>
+    <packagedElement type="Association" id="_L6o88GZ3EeyQRaS3pvwf2Q" visibility="private" memberEnd="_L6pkAmZ3EeyQRaS3pvwf2Q _L6pkBWZ3EeyQRaS3pvwf2Q">
+      <eAnnotations type="ecore:EAnnotation" id="_L6pkAGZ3EeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
+        <details type="ecore:EStringToStringMapEntry" id="_L6pkAWZ3EeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+    </packagedElement>
+    <packagedElement type="Class" id="_smtw8Gk9EeyfLoS_7k1JGw" name="Class15"/>
+    <profileApplication type="ProfileApplication" id="_W4AbgGZNEeyQRaS3pvwf2Q">
+      <eAnnotations type="ecore:EAnnotation" id="_9ztmkGfLEeybU4PA43gGRw" source="PapyrusVersion">
+        <details type="ecore:EStringToStringMapEntry" id="_9ztmkWfLEeybU4PA43gGRw" key="Version" value="0.0.7"/>
+        <details type="ecore:EStringToStringMapEntry" id="_9ztmkmfLEeybU4PA43gGRw" key="Comment" value=""/>
+        <details type="ecore:EStringToStringMapEntry" id="_9ztmk2fLEeybU4PA43gGRw" key="Copyright" value=""/>
+        <details type="ecore:EStringToStringMapEntry" id="_9ztmlGfLEeybU4PA43gGRw" key="Date" value="2021-12-27"/>
+        <details type="ecore:EStringToStringMapEntry" id="_9ztmlWfLEeybU4PA43gGRw" key="Author" value=""/>
+      </eAnnotations>
+      <eAnnotations type="ecore:EAnnotation" id="_W4De0GZNEeyQRaS3pvwf2Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references type="ecore:EPackage" href="../metamodel/metamodel.profile.uml#_xTj98Gb1EeyQRaS3pvwf2Q"/>
+      </eAnnotations>
+      <appliedProfile type="Profile" href="../metamodel/metamodel.profile.uml#_rtKwIGD1Eey6kKyeqeMLPA"/>
+    </profileApplication>
+  </Model>

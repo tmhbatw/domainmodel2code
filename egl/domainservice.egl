@@ -1,0 +1,79 @@
+package gen.[%=ele.parent.s_name%];
+
+
+import gen.annotation.DomainService;
+
+@DomainService
+public class [%=ele.s_name%]{
+
+
+	[* 生成领域服务的属性*]
+[%for (attribute in ele.c_ownedAttribute) { %]
+	[% var attributeType = attribute.c_type.s_type.first();	%]	 
+
+	//生成领域服务所包含的属性
+	private [%=attributeType%] [%=attribute.s_name %];
+[%}%]
+	
+	[%var parameter=""; %]
+	[%for (attribute in ele.c_ownedAttribute) { %]
+	[% 	var attributeType = attribute.c_type.s_type.first();	
+		var attributeName = attribute.s_name;
+		parameter = parameter + attributeType+ " "+attributeName + ",";%]	 
+	[%}%]
+		
+	[% if(parameter.length()>0)
+		parameter=parameter.substring(0,Math.max(0,parameter.length()-1));%]
+	
+	//生成领域服务的含参构造函数
+	public [%=ele.s_name%]([%=parameter%]){
+		[%for (attribute in ele.c_ownedAttribute) { %]
+	[% var attributeType = attribute.c_type.s_type.first();	%]	 
+		this.[%=attribute.s_name %]=[%=attribute.s_name %];
+		[%}%]
+	
+	}
+	
+	[*生成领域服务的方法 *]
+
+	[%for (o in ele.c_ownedOperation) { %]
+	[% 	var name = o.s_name;	
+		var operationParameter = ""; 
+		for (oo in o.c_ownedParameter) {
+			var operationParameterName = oo.s_name;
+			var operationParameterType = oo.c_type.s_type.first(); 
+			operationParameter = operationParameter+ operationParameterType + " " + operationParameterName+",";
+		}
+		
+		if (operationParameter.length()>0){
+			operationParameter = operationParameter.substring(0,operationParameter.length()-1);	
+		}
+	%]  
+	
+	//自动生成的领域服务的方法框架，需要软件开发人员手动实现主体部分
+	public void [%=name %]([%=operationParameter%]){
+	
+	}
+[%}%]
+
+
+	//属性的getter与setter方法
+	[%for (attribute in ele.c_ownedAttribute) { %]
+	[% 	var attributeType = attribute.c_type.s_type.first();
+		var name = attribute.s_name;
+		var newname = name.substring(0,1).toUpperCase() + name.substring(1);	%]	 
+	 
+	public [%=attributeType%] get[%=newname%](){
+	
+		return this.[%=name%];
+		
+	}
+	
+	public void set[%=newname%]([%=attributeType %] cur){
+	
+		this.[%=name%]=[%=name%];
+	
+	}
+		
+	[%}%]
+}
