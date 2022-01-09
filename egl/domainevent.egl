@@ -3,30 +3,26 @@ package gen.[%=ele.parent.s_name%].domainevent;
 import gen.annotation.DomainEvent;
 import gen.annotation.DomainAttribute;
 import gen.annotation.DomainBehaviour;
+import gen.annotation.AggregatePart;
 
 @DomainEvent(identifier = "[%=ele.s_identifier%]", timestamp = "[%=ele.s_timestamp%]", publisher = "[%=ele.s_publisher%].class", subscriber = "[%=ele.s_subscriber%]")
 public class [%=ele.s_name%]{
-
-	[* Éú³ÉÁìÓòÊÂ¼şµÄÊôĞÔ*]
+	[*ç”Ÿæˆè¯¥é¢†åŸŸäº‹ä»¶æ‰€åŒ…å«çš„å±æ€§*]
 [%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
-	
-	//ËùÉú³ÉµÄÁìÓòÊÂ¼şËù¶ÔÓ¦µÄÊôĞÔ
+	//è¯¥é¢†åŸŸäº‹ä»¶æ‰€åŒ…å«çš„å±æ€§
 	@DomainAttribute
 	private [%=attributeType%] [%=attribute.s_name %];
 [%}%]
-
 	[%var parameter=""; %]
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();	
 		var attributeName = attribute.s_name;
 		parameter = parameter + attributeType+ " "+attributeName + ",";%]	 
 	[%}%]
-		
 	[% if(parameter.length()>0)
 		parameter=parameter.substring(0,parameter.length()-1);%]
-	
-	//ÁìÓòÊÂ¼şµÄÓĞ²Î¹¹Ôìº¯Êı
+	//è¯¥é¢†åŸŸäº‹ä»¶æ‰€åŒ…å«çš„å«å‚æ„é€ å‡½æ•°
 	public [%=ele.s_name%]([%=parameter%]){
 		[%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
@@ -34,31 +30,24 @@ public class [%=ele.s_name%]{
 		[%}%]
 	
 	}
-	
-	//ÁìÓòÊÂ¼şµÄÎŞ²Î¹¹Ôìº¯Êı
-	public [%=ele.s_name%](){
-	
-	}
-	
-	[*Éú³ÉÁìÓòÊÂ¼şµÄ·½·¨ *]
-
+	//è¯¥é¢†åŸŸäº‹ä»¶æ‰€åŒ…å«çš„æ— å‚æ„é€ å‡½æ•°ï¼Œå¯ä»¥è§†æƒ…å†µè¿›è¡Œæ·»åŠ 
+//	public [%=ele.s_name%](){
+//	
+//	}
+	[*ç”Ÿæˆè¯¥é¢†åŸŸäº‹ä»¶æ‰€åŒ…å«çš„æ“ä½œ *]
 	[%for (o in ele.c_ownedOperation) { %]
 	[% 	var name = o.s_name;	%]	 
-	
-	//×Ô¶¯Éú³ÉµÄÁìÓòÊÂ¼şµÄ·½·¨¿ò¼Ü£¬ĞèÒªÈí¼ş¿ª·¢ÈËÔ±ÊÖ¶¯ÊµÏÖÖ÷Ìå²¿·Ö
+	//è¯¥é¢†åŸŸäº‹ä»¶æ‰€åŒ…å«çš„æ“ä½œ
 	@DomainBehaviour
 	public void [%=name %]([%=operationParameter%]){
 	
 	}
 [%}%]
-
-
-	//ÊôĞÔµÄgetterÓësetter·½·¨
+	//ç”Ÿæˆé¢†åŸŸäº‹ä»¶å±æ€§çš„getterä»¥åŠsetteræ–¹æ³•
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();
 		var name = attribute.s_name;
 		var newname = name.substring(0,1).toUpperCase() + name.substring(1);	%]	 
-	 
 	public [%=attributeType%] get[%=newname%](){
 	
 		return this.[%=name%];

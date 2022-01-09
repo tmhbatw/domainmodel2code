@@ -1,0 +1,29 @@
+@startuml
+package "<<SharedKernel>>\nLocationShare" as aaaaab {
+}
+note top of aaaaab
+oneContextName : Location
+theOtherContextName : Cargo
+end note
+package "<<BoundedContext>>\nCargo" as aaaaac {
+}
+package "<<BoundedContext>>\nCustomer" as aaaaad {
+}
+package "<<SharedKernel>>\nCustomerShare" as aaaaae {
+}
+note top of aaaaae
+oneContextName : Cargo
+theOtherContextName : Customer
+end note
+package "<<BoundedContext>>\nVoyage" as aaaaaf {
+}
+package "<<BoundedContext>>\nLocation" as aaaaag {
+}
+aaaaab"Default".[#Black].>"Default"aaaaag
+aaaaac"Default".[#Black].>"Default"aaaaad
+aaaaac"Default".[#Black].>"Default"aaaaae
+aaaaac"Conformist".[#Black].>"OpenHostService"aaaaaf
+aaaaac-[#Black]-aaaaad: partnership
+aaaaae"Default".[#Black].>"Default"aaaaad
+aaaaaf"Default".[#Black].>"Default"aaaaag
+@enduml

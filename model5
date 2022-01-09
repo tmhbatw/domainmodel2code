@@ -1,0 +1,39 @@
+@startuml
+package "<<SharedKernel>>\nLocationShare" as aaaaab {
+}
+package "<<BoundedContext>>\nCargo" as aaaaac {
+}
+package "<<BoundedContext>>\nCustomer" as aaaaad {
+}
+package "<<SharedKernel>>\nCustomerShare" as aaaaae {
+}
+package "<<BoundedContext>>\nVoyage" as aaaaaf {
+}
+package "<<BoundedContext>>\nLocation" as aaaaag {
+}
+package "<<SharedKernel>>\nLocationShare" as aaaaah#white {
+}
+package "<<BoundedContext>>\nCargo" as aaaaai#white {
+}
+package "<<BoundedContext>>\nCustomer" as aaaaaj#white {
+}
+package "<<SharedKernel>>\nCustomerShare" as aaaaak#white {
+}
+package "<<BoundedContext>>\nVoyage" as aaaaal#white {
+}
+package "<<BoundedContext>>\nLocation" as aaaaam#white {
+}
+aaaaac"Default".[#Black].>"Default"aaaaad
+aaaaac"Default".[#Black].>"Default"aaaaaf
+aaaaaf"Default".[#Black].>"Default"aaaaag
+aaaaac"Default".[#Black].>"Default"aaaaae
+aaaaab"Default".[#Black].>"Default"aaaaag
+aaaaae"Default".[#Black].>"Default"aaaaad
+aaaaai-[#Green]-aaaaaj: partnership
+aaaaai"Default".[#Black].>"Default"aaaaaj
+aaaaai"Conformist".[#Blue].>"Default"aaaaal
+aaaaal"Default".[#Black].>"Default"aaaaam
+aaaaai"Default".[#Black].>"Default"aaaaak
+aaaaah"Default".[#Black].>"Default"aaaaam
+aaaaak"Default".[#Black].>"Default"aaaaaj
+@enduml

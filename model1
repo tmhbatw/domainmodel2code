@@ -1,0 +1,178 @@
+@startuml
+package "<<SharedKernel>>\nLocationShare" {
+	class LocationShared
+}
+package "<<BoundedContext>>\nCargo" {
+	class Cargo
+	class CargoRepository
+	class DeliverySepcification
+	class HandlingEvent
+	class Itinerary
+	class Leg
+}
+package "<<BoundedContext>>\nCustomer" {
+	class Customer
+	class CustomerRepository
+}
+package "<<SharedKernel>>\nCustomerShare" {
+	class CustomerShare
+}
+package "<<BoundedContext>>\nVoyage" {
+	class CarrierMovement
+	class Voyage
+	class VoyageFactory
+}
+package "<<BoundedContext>>\nLocation" {
+	class Location
+	class LocationService
+}
+class CargoRepository <<Repository>> ##black{
+	accessingDomainObject:Cargo
+
+__
+
+__
+	void findByName(String name)
+	void findByTrackingId(String trackingId)
+
+}
+class CustomerRepository <<Repository>> ##black{
+	accessingDomainObject:Customer
+
+__
+
+__
+	void findByName(String name)
+	void findByCustomerId(String customerId)
+
+}
+class Voyage <<AggregateRoot,Entity>> ##black{
+	identifier:voyageNumber
+
+__
+	String voyageNumber
+
+__
+
+}
+class VoyageFactory <<Factory>> ##black{
+	creatingDomainObject:Voyage
+
+__
+
+__
+	Voyage createVoyage(Voyage value)
+
+}
+class Customer <<Entity>> ##black{
+	identifier:customerId
+
+__
+	String name
+	String customerId
+
+__
+
+}
+class Location <<Entity>> ##black{
+	identifier:portCode
+
+__
+	String portCode
+
+__
+
+}
+class Itinerary <<AggregateRoot,Entity>> ##black{
+	identifier:itineraryNumber
+
+__
+	String itineraryNumber
+	Cargo c
+
+__
+
+}
+class CustomerShare <<ValueObject>> ##black{
+
+__
+	String CustomerId
+
+__
+	String getCustomerId()
+	void setCustomerId(String cur)
+
+}
+class Leg <<AggregatePart,ValueObject>> ##black{
+	aggregateRootType:Itinerary
+
+__
+	Date loadTime
+	Date unloadTime
+
+__
+
+}
+class CarrierMovement <<AggregatePart,ValueObject>> ##black{
+	aggregateRootType:Voyage
+
+__
+	Location departmentLocation
+	Location arriveLocation
+	Date departureTime
+	Date arriveTime
+
+__
+
+}
+class LocationService <<DomainService>> ##black{
+
+__
+
+__
+	void resolveByPortCode(String code)
+
+}
+class LocationShared <<ValueObject>> ##black{
+
+__
+	String portCode
+
+__
+
+}
+class Cargo <<AggregateRoot,Entity>> ##black{
+	identifier:trackingId
+
+__
+	String trackingId
+	List list
+	Itinerary a
+
+__
+
+}
+class DeliverySepcification <<AggregatePart,ValueObject>> ##black{
+	aggregateRootType:Cargo
+
+__
+	Date arriveDeadline
+
+__
+
+}
+class HandlingEvent <<AggregatePart,Entity>> ##black{
+	aggregateRootType:Cargo
+	identifier:handlingEventId
+
+__
+	Date completionTime
+	String handlingEventId
+
+__
+
+}
+VoyageFactory.[#Black].>Voyage
+Itinerary-[#Black]-Cargo
+CarrierMovement-[#Black]->Location
+@enduml

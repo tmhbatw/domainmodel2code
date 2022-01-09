@@ -1,0 +1,371 @@
+@startuml
+package "<<SharedKernel>>\nLocationShare" as aaaaan{
+	class aaaaan.LocationShared
+}
+package "<<BoundedContext>>\nCargo" as aaaaao{
+	class aaaaao.HandlingEvent
+	class aaaaao.Itinerary
+	class aaaaao.Leg
+	class aaaaao.Cargo
+	class aaaaao.CargoRepository
+	class aaaaao.DeliverySepcification
+}
+package "<<BoundedContext>>\nCustomer" as aaaaap{
+	class aaaaap.Customer
+	class aaaaap.CustomerRepository
+}
+package "<<SharedKernel>>\nCustomerShare" as aaaaaq{
+	class aaaaaq.CustomerShare
+}
+package "<<BoundedContext>>\nVoyage" as aaaaar{
+	class aaaaar.VoyageFactory
+	class aaaaar.Voyage
+	class aaaaar.CarrierMovement
+}
+package "<<BoundedContext>>\nLocation" as aaaaas{
+	class aaaaas.LocationService
+	class aaaaas.Location
+}
+class aaaaao.Cargo <<Entity,AggregateRoot>> ##black{
+	identifier:trackingId
+
+__
+	String trackingId
+
+__
+
+}
+class aaaaap.Customer <<Entity>> ##black{
+	identifier:customerId
+
+__
+	String name
+	String customerId
+
+__
+
+}
+class aaaaaq.CustomerShare <<ValueObject>> ##black{
+
+__
+	String CustomerId
+
+__
+
+}
+class aaaaar.Voyage <<Entity,AggregateRoot>> ##black{
+	identifier:voyageNumber
+
+__
+	String voyageNumber
+
+__
+
+}
+class aaaaao.DeliverySepcification <<ValueObject,AggregatePart>> ##black{
+	aggregateRootType:Cargo
+
+__
+	Date arriveDeadline
+
+__
+
+}
+class aaaaao.CargoRepository <<Repository>> ##black{
+	accessingDomainObject:Cargo
+
+__
+
+__
+	void findByName(String name)
+	void findByTrackingId(String trackingId)
+
+}
+class aaaaan.LocationShared <<ValueObject>> ##black{
+
+__
+	String portCode
+
+__
+
+}
+class aaaaao.Leg <<ValueObject,AggregatePart>> ##black{
+	aggregateRootType:Itinerary
+
+__
+	Date loadTime
+	Date unloadTime
+
+__
+
+}
+class aaaaar.CarrierMovement <<ValueObject,AggregatePart>> ##black{
+	aggregateRootType:Voyage
+
+__
+	Location departmentLocation
+	Location arriveLocation
+	Date departureTime
+	Date arriveTime
+
+__
+
+}
+class aaaaar.VoyageFactory <<Factory>> ##black{
+	creatingDomainObject:Voyage
+
+__
+
+__
+
+}
+class aaaaas.LocationService <<DomainService>> ##black{
+
+__
+
+__
+	void resolveByPortCode(String code)
+
+}
+class aaaaap.CustomerRepository <<Repository>> ##black{
+	accessingDomainObject:Customer
+
+__
+
+__
+	void findByName(String name)
+	void findByCustomerId(String customerId)
+
+}
+class aaaaao.Itinerary <<Entity,AggregateRoot>> ##black{
+	identifier:itineraryNumber
+
+__
+	String itineraryNumber
+
+__
+
+}
+class aaaaao.HandlingEvent <<Entity,AggregatePart>> ##black{
+	identifier:handlingEventId
+	aggregateRootType:Cargo
+
+__
+	Date completionTime
+	String handlingEventId
+
+__
+
+}
+class aaaaas.Location <<Entity>> ##black{
+	identifier:portCode
+
+__
+	String portCode
+
+__
+
+}
+aaaaao.Cargo.[#Black].>aaaaap.CustomerRepository
+aaaaao.Cargo.[#Black].>aaaaaq.CustomerShare
+aaaaaq.CustomerShare.[#Black].>aaaaap.Customer
+aaaaao.CargoRepository.[#Black].>aaaaao.Cargo
+aaaaan.LocationShared.[#Black].>aaaaas.Location
+aaaaar.CarrierMovement.[#Black].>aaaaas.LocationService
+aaaaar.VoyageFactory.[#Black].>aaaaar.Voyage
+aaaaas.LocationService.[#Black].>aaaaas.Location
+aaaaap.CustomerRepository.[#Black].>aaaaap.Customer
+aaaaao.Cargo-[#Black]->aaaaao.Itinerary
+aaaaao.Cargo-[#Black]->aaaaao.DeliverySepcification
+aaaaao.Itinerary-[#Black]->aaaaao.Leg
+aaaaao.HandlingEvent-[#Black]->aaaaar.CarrierMovement
+aaaaao.HandlingEvent-[#Black]->aaaaao.Cargo
+package "<<SharedKernel>>\nLocationShare" as aaaaat#White{
+	class aaaaat.LocationShared
+}
+package "<<BoundedContext>>\nCargo" as aaaaau#White{
+	class aaaaau.Cargo
+	class aaaaau.DeliverySepcification
+	class aaaaau.CargoRepository
+	class aaaaau.Leg
+	class aaaaau.Itinerary
+	class aaaaau.HandlingEvent
+}
+package "<<BoundedContext>>\nCustomer" as aaaaav#White{
+	class aaaaav.Customer
+	class aaaaav.CustomerRepository
+}
+package "<<SharedKernel>>\nCustomerShare" as aaaaaw#White{
+	class aaaaaw.CustomerShare
+}
+package "<<BoundedContext>>\nVoyage" as aaaaax#White{
+	class aaaaax.Voyage
+	class aaaaax.CarrierMovement
+	class aaaaax.VoyageFactory
+}
+package "<<BoundedContext>>\nLocation" as aaaaay#White{
+	class aaaaay.LocationService
+	class aaaaay.Location
+}
+class aaaaau.Cargo <<AggregateRoot,Entity>> ##Blue{
+	identifier:trackingId
+
+__
+	String trackingId
+	+List list
+	+Itinerary a
+
+__
+
+}
+class aaaaav.Customer <<Entity>> ##Black{
+	identifier:customerId
+
+__
+	String customerId
+	String name
+
+__
+
+}
+class aaaaau.DeliverySepcification <<AggregatePart,ValueObject>> ##Black{
+	aggregateRootType:Cargo
+
+__
+	Date arriveDeadline
+
+__
+
+}
+class aaaaaw.CustomerShare <<ValueObject>> ##Blue{
+
+__
+	String CustomerId
+
+__
+	+String getCustomerId()
+	+void setCustomerId(String cur)
+
+}
+class aaaaax.Voyage <<AggregateRoot,Entity>> ##Black{
+	identifier:voyageNumber
+
+__
+	String voyageNumber
+
+__
+
+}
+class aaaaau.CargoRepository <<Repository>> ##Black{
+	accessingDomainObject:Cargo
+
+__
+
+__
+	void findByName(String name)
+	void findByTrackingId(String trackingId)
+
+}
+class aaaaat.LocationShared <<ValueObject>> ##Black{
+
+__
+	String portCode
+
+__
+
+}
+class aaaaau.Leg <<AggregatePart,ValueObject>> ##Black{
+	aggregateRootType:Itinerary
+
+__
+	Date loadTime
+	Date unloadTime
+
+__
+
+}
+class aaaaax.CarrierMovement <<AggregatePart,ValueObject>> ##Black{
+	aggregateRootType:Voyage
+
+__
+	Location arriveLocation
+	Date arriveTime
+	Location departmentLocation
+	Date departureTime
+
+__
+
+}
+class aaaaax.VoyageFactory <<Factory>> ##Blue{
+	creatingDomainObject:Voyage
+
+__
+
+__
+	+Voyage createVoyage(Voyage value)
+
+}
+class aaaaay.LocationService <<DomainService>> ##Black{
+
+__
+
+__
+	void resolveByPortCode(String code)
+
+}
+class aaaaav.CustomerRepository <<Repository>> ##Black{
+	accessingDomainObject:Customer
+
+__
+
+__
+	void findByCustomerId(String customerId)
+	void findByName(String name)
+
+}
+class aaaaau.Itinerary <<AggregateRoot,Entity>> ##Blue{
+	identifier:itineraryNumber
+
+__
+	String itineraryNumber
+	+Cargo c
+
+__
+
+}
+class aaaaau.HandlingEvent <<AggregatePart,Entity>> ##Black{
+	aggregateRootType:Cargo
+	identifier:handlingEventId
+
+__
+	Date completionTime
+	String handlingEventId
+
+__
+
+}
+class aaaaay.Location <<Entity>> ##Black{
+	identifier:portCode
+
+__
+	String portCode
+
+__
+
+}
+aaaaav.CustomerRepository.[#Black].>aaaaav.Customer
+aaaaat.LocationShared.[#Black].>aaaaay.Location
+aaaaau.CargoRepository.[#Black].>aaaaau.Cargo
+aaaaau.Cargo.[#Black].>aaaaaw.CustomerShare
+aaaaax.CarrierMovement.[#Black].>aaaaay.LocationService
+aaaaay.LocationService.[#Black].>aaaaay.Location
+aaaaau.Cargo.[#Black].>aaaaav.CustomerRepository
+aaaaaw.CustomerShare.[#Black].>aaaaav.Customer
+aaaaax.VoyageFactory.[#Black].>aaaaax.Voyage
+aaaaau.Cargo-[#Green]-aaaaau.Itinerary
+aaaaau.Itinerary-[#Black]->aaaaau.Leg
+aaaaau.HandlingEvent-[#Black]->aaaaax.CarrierMovement
+aaaaau.HandlingEvent-[#Black]->aaaaau.Cargo
+aaaaau.Cargo-[#Black]->aaaaau.DeliverySepcification
+aaaaau.Cargo-[#Red]->aaaaau.Itinerary
+@enduml

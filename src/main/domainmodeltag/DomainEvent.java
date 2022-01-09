@@ -1,12 +1,10 @@
 package main.domainmodeltag;
 
-import java.util.Date;
-
 public class DomainEvent extends DomainObject {
-    String identifier;
-    String timestamp;
-    String publisher;
-    String subscriber;
+    public String identifier;
+    public String timestamp;
+    public String publisher;
+    public String subscriber;
 
     public DomainEvent(String identifier,String timestamp,String publisher,String subscriber){
         this.identifier=identifier;

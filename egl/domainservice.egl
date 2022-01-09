@@ -5,27 +5,21 @@ import gen.annotation.DomainService;
 
 @DomainService
 public class [%=ele.s_name%]{
-
-
-	[* Éú³ÉÁìÓò·şÎñµÄÊôĞÔ*]
+	[*ç”Ÿæˆé¢†åŸŸæœåŠ¡çš„å±æ€§ä¸æ“ä½œ*]
 [%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
-
-	//Éú³ÉÁìÓò·şÎñËù°üº¬µÄÊôĞÔ
+	//ç”Ÿæˆè¯¥é¢†åŸŸæœåŠ¡çš„å±æ€§
 	private [%=attributeType%] [%=attribute.s_name %];
 [%}%]
-	
 	[%var parameter=""; %]
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();	
 		var attributeName = attribute.s_name;
 		parameter = parameter + attributeType+ " "+attributeName + ",";%]	 
 	[%}%]
-		
 	[% if(parameter.length()>0)
 		parameter=parameter.substring(0,Math.max(0,parameter.length()-1));%]
-	
-	//Éú³ÉÁìÓò·şÎñµÄº¬²Î¹¹Ôìº¯Êı
+	//ç”Ÿæˆé¢†åŸŸæœåŠ¡çš„å«å‚æ„é€ å‡½æ•°
 	public [%=ele.s_name%]([%=parameter%]){
 		[%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
@@ -33,9 +27,7 @@ public class [%=ele.s_name%]{
 		[%}%]
 	
 	}
-	
-	[*Éú³ÉÁìÓò·şÎñµÄ·½·¨ *]
-
+	[*ç”Ÿæˆé¢†åŸŸæœåŠ¡çš„æ“ä½œ*]
 	[%for (o in ele.c_ownedOperation) { %]
 	[% 	var name = o.s_name;	
 		var operationParameter = ""; 
@@ -44,25 +36,21 @@ public class [%=ele.s_name%]{
 			var operationParameterType = oo.c_type.s_type.first(); 
 			operationParameter = operationParameter+ operationParameterType + " " + operationParameterName+",";
 		}
-		
 		if (operationParameter.length()>0){
 			operationParameter = operationParameter.substring(0,operationParameter.length()-1);	
 		}
 	%]  
 	
-	//×Ô¶¯Éú³ÉµÄÁìÓò·şÎñµÄ·½·¨¿ò¼Ü£¬ĞèÒªÈí¼ş¿ª·¢ÈËÔ±ÊÖ¶¯ÊµÏÖÖ÷Ìå²¿·Ö
+	//é¢†åŸŸæœåŠ¡å¯¹åº”çš„æ“ä½œï¼Œéœ€è¦å¼€å‘äººå‘˜æ‰‹åŠ¨å®ç°
 	public void [%=name %]([%=operationParameter%]){
 	
 	}
 [%}%]
-
-
-	//ÊôĞÔµÄgetterÓësetter·½·¨
+	//é¢†åŸŸæœåŠ¡å±æ€§çš„getterä»¥åŠsetteræ–¹æ³•
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();
 		var name = attribute.s_name;
 		var newname = name.substring(0,1).toUpperCase() + name.substring(1);	%]	 
-	 
 	public [%=attributeType%] get[%=newname%](){
 	
 		return this.[%=name%];

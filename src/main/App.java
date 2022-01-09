@@ -17,6 +17,7 @@ import org.eclipse.epsilon.emc.plainxml.PlainXmlModel;
 
 public class App {
 	
+	//执行xml模型到代码模板的转换过程
 	public static void main(String[] args) throws Exception {
 		
 		System.out.print("0");

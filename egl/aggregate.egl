@@ -1,26 +1,30 @@
-//Éú³É¾ÛºÏÄ£¿éµÄ°ü×¢½â
+//è¿™ä¸ªåŒ…è¡¨ç¤ºä¸€ä¸ªèšåˆ
 @Aggregate(name = "[%=ele.s_name%]")
+
 [%for (attribute in ele.c_DownStreamContext) { %]
 [% 	var upStreamContextName = attribute.s_upStreamContextName;	
 	var downStreamContextType=attribute.s_downStreamContextType;%]	 
-//ËùÉú³ÉµÄÏÂÓÎÏŞ½çÉÏÏÂÎÄÓ³Éä¹ØÏµ
+//è¯¥é™ç•Œä¸Šä¸‹æ–‡æ‰€å¯¹åº”çš„ä¸‹æ¸¸é™ç•Œä¸Šä¸‹æ–‡å…³ç³»
 @DownStreamContext(upStreamContextName = "[%=upStreamContextName%]", downStreamContextType = [%=downStreamContextType%]) 
 [%}%]
+
 [%for (attribute in ele.c_UpStreamContext) { %]
 [% 	var downStreamContextName = attribute.s_downStreamContextName;	
 	var upStreamContextType=attribute.s_upStreamContextType;%]	 
-//ËùÉú³ÉµÄÉÏÓÎÏŞ½çÉÏÏÂÎÄÓ³Éä¹ØÏµ
+//è¯¥é™ç•Œä¸Šä¸‹æ–‡æ‰€å¯¹åº”çš„ä¸Šæ¸¸é™ç•Œä¸Šä¸‹æ–‡å…³ç³»
 @UpStreamContext(downStreamContextName = "[%=downStreamContextName%]", upStreamContextType = [%=upStreamContextType%]) 
 [%}%]
+
 [%for (attribute in ele.c_partnership) { %]
 [% 	var anotherPartnershipContext = attribute.s_anotherPartnershipContext;%]	 
-//ËùÉú³ÉµÄ»ï°é¹ØÏµÉÏÏÂÎÄÓ³Éä¹ØÏµ
+//è¯¥é™ç•Œä¸Šä¸‹æ–‡åŒ…å«çš„ä¼™ä¼´å…³ç³»
 @Partnership(anotherPartnershipContext = "[%=anotherPartnershipContext%]") 
 [%}%]
-
 package gen.model.[%=ele.s_name%];
 
 import gen.annotation.Aggregate;
 import gen.annotation.Partnership;
 import gen.annotation.DownStreamContext;
 import gen.annotation.UpStreamContext;
+import gen.annotation.DownStreamContextType;
+import gen.annotation.UpStreamContextType;

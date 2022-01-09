@@ -1,7 +1,7 @@
 package main.domainmodeltag;
 
 public class Entity extends DomainObject {
-    String identifier;
+    public String identifier;
 
     public Entity(String identifier){
         this.identifier=identifier;

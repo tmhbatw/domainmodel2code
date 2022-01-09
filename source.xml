@@ -176,7 +176,6 @@
       </eAnnotations>
       <ownedEnd xmi:type="uml:Property" xmi:id="_L6pkBWZ3EeyQRaS3pvwf2Q" type="_YsQrwGZrEeyQRaS3pvwf2Q" association="_L6o88GZ3EeyQRaS3pvwf2Q"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_smtw8Gk9EeyfLoS_7k1JGw" name="Class15"/>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_W4AbgGZNEeyQRaS3pvwf2Q">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_9ztmkGfLEeybU4PA43gGRw" source="PapyrusVersion">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_9ztmkWfLEeybU4PA43gGRw" key="Version" value="0.0.7"/>

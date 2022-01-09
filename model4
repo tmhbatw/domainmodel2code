@@ -1,0 +1,183 @@
+@startuml
+package "<<SharedKernel>>\nLocationShare" {
+	class LocationShared
+}
+package "<<BoundedContext>>\nCargo" {
+	class HandlingEvent
+	class Itinerary
+	class Leg
+	class Cargo
+	class CargoRepository
+	class DeliverySepcification
+}
+package "<<BoundedContext>>\nCustomer" {
+	class Customer
+	class CustomerRepository
+}
+package "<<SharedKernel>>\nCustomerShare" {
+	class CustomerShare
+}
+package "<<BoundedContext>>\nVoyage" {
+	class VoyageFactory
+	class Voyage
+	class CarrierMovement
+}
+package "<<BoundedContext>>\nLocation" {
+	class LocationService
+	class Location
+}
+class Cargo <<Entity,AggregateRoot>> ##black{
+	identifier:trackingId
+
+__
+	String trackingId
+
+__
+
+}
+class Customer <<Entity>> ##black{
+	identifier:customerId
+
+__
+	String name
+	String customerId
+
+__
+
+}
+class CustomerShare <<ValueObject>> ##black{
+
+__
+	String CustomerId
+
+__
+
+}
+class Voyage <<Entity,AggregateRoot>> ##black{
+	identifier:voyageNumber
+
+__
+	String voyageNumber
+
+__
+
+}
+class DeliverySepcification <<ValueObject,AggregatePart>> ##black{
+	aggregateRootType:Cargo
+
+__
+	Date arriveDeadline
+
+__
+
+}
+class CargoRepository <<Repository>> ##black{
+	accessingDomainObject:Cargo
+
+__
+
+__
+	void findByName(String name)
+	void findByTrackingId(String trackingId)
+
+}
+class LocationShared <<ValueObject>> ##black{
+
+__
+	String portCode
+
+__
+
+}
+class Leg <<ValueObject,AggregatePart>> ##black{
+	aggregateRootType:Itinerary
+
+__
+	Date loadTime
+	Date unloadTime
+
+__
+
+}
+class CarrierMovement <<ValueObject,AggregatePart>> ##black{
+	aggregateRootType:Voyage
+
+__
+	Location departmentLocation
+	Location arriveLocation
+	Date departureTime
+	Date arriveTime
+
+__
+
+}
+class VoyageFactory <<Factory>> ##black{
+	creatingDomainObject:Voyage
+
+__
+
+__
+
+}
+class LocationService <<DomainService>> ##black{
+
+__
+
+__
+	void resolveByPortCode(String code)
+
+}
+class CustomerRepository <<Repository>> ##black{
+	accessingDomainObject:Customer
+
+__
+
+__
+	void findByName(String name)
+	void findByCustomerId(String customerId)
+
+}
+class Itinerary <<Entity,AggregateRoot>> ##black{
+	identifier:itineraryNumber
+
+__
+	String itineraryNumber
+
+__
+
+}
+class HandlingEvent <<Entity,AggregatePart>> ##black{
+	identifier:handlingEventId
+	aggregateRootType:Cargo
+
+__
+	Date completionTime
+	String handlingEventId
+
+__
+
+}
+class Location <<Entity>> ##black{
+	identifier:portCode
+
+__
+	String portCode
+
+__
+
+}
+Cargo.[#Black].>CustomerRepository
+Cargo.[#Black].>CustomerShare
+CustomerShare.[#Black].>Customer
+CargoRepository.[#Black].>Cargo
+LocationShared.[#Black].>Location
+CarrierMovement.[#Black].>LocationService
+VoyageFactory.[#Black].>Voyage
+LocationService.[#Black].>Location
+CustomerRepository.[#Black].>Customer
+Cargo-[#Black]->Itinerary
+Cargo-[#Black]->DeliverySepcification
+Itinerary-[#Black]->Leg
+HandlingEvent-[#Black]->CarrierMovement
+HandlingEvent-[#Black]->Cargo
+@enduml

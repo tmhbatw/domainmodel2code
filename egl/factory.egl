@@ -3,19 +3,16 @@ package gen.[%=ele.parent.s_name%];
 
 import gen.annotation.Factory;
 
-@Factory(creatingDomainObject = "[%=ele.s_creatingDomainObject%]")
+@Factory(creatingDomainObject = [%=ele.s_creatingDomainObject%].class)
 
 public class [%=ele.s_name%]{
-
-
-	[* Éú³É¹¤³§µÄÊôĞÔ*]
+	[*è¯¥å·¥å‚æ‰€åŒ…å«çš„å±æ€§*]
 [%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
 
-	//ËùÉú³ÉµÄ¹¤³§µÄÊôĞÔ
+	//ç”Ÿæˆè¯¥å·¥å‚æ‰€åŒ…å«çš„å±æ€§
 	private [%=attributeType%] [%=attribute.s_name %];
 [%}%]
-	
 	[%var parameter=""; %]
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();	
@@ -26,7 +23,7 @@ public class [%=ele.s_name%]{
 	[% if(parameter.length()>0)
 		parameter=parameter.substring(0,parameter.length()-1);%]
 		
-	//Éú³É¹¤³§µÄº¬²Î¹¹Ôìº¯Êı
+	//ç”Ÿæˆè¯¥å·¥å‚å¯¹åº”çš„å«å‚æ„é€ å‡½æ•°
 	public [%=ele.s_name%]([%=parameter%]){
 		[%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
@@ -34,9 +31,7 @@ public class [%=ele.s_name%]{
 		[%}%]
 	
 	}
-	
-	[*Éú³É¹¤³§¶ÔÓ¦µÄµÄ·½·¨ *]
-
+	[*ç”Ÿæˆè¯¥å·¥å‚åŒ…å«çš„æ–¹æ³• *]
 	[%for (o in ele.c_ownedOperation) { %]
 	[% 	var name = o.s_name;	
 		var operationParameter = ""; 
@@ -50,20 +45,16 @@ public class [%=ele.s_name%]{
 			operationParameter = operationParameter.substring(0,operationParameter.length()-1);	
 		}
 	%] 
-	
-	//×Ô¶¯Éú³ÉµÄ¹¤³§µÄ·½·¨¿ò¼Ü£¬ĞèÒªÈí¼ş¿ª·¢ÈËÔ±ÊÖ¶¯ÊµÏÖÖ÷Ìå²¿·Ö
+	//å·¥å‚æ–¹æ³•ï¼Œéœ€è¦å¼€å‘äººå‘˜æ‰‹åŠ¨å®ç°
 	public void [%=name %]([%=operationParameter%]){
 	
 	}
 [%}%]
-
-
-	//ÊôĞÔµÄgetterÓësetter·½·¨
+	//è¯¥å·¥å‚çš„setterä»¥åŠgetteræ–¹æ³•
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();
 		var name = attribute.s_name;
 		var newname = name.substring(0,1).toUpperCase() + name.substring(1);	%]	 
-	 
 	public [%=attributeType%] get[%=newname%](){
 	
 		return this.[%=name%];

@@ -1,5 +1,8 @@
 package main;
 
+import main.domainmodeltag.*;
+import main.domainmodeltag.Module;
+import main.metainfo.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,34 +11,160 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.*;
 
-import main.domainmodeltag.*;
-import main.domainmodeltag.Module;
-
 public class XMI2XML {
 
-    //Ê×ÏÈ»ñÈ¡µ½Ã¿Ò»¸ö½ÚµãµÄÀàĞÍ£¬ÒòÎªÒ»¸ç½Úµã¿ÉÄÜÓĞ¶à¸öÀàĞÍ£¬ËùÒÔÕâÀïÉèÖÃÁËÒ»¸ölist
-    //Í¬Ê±»ñÈ¡Ò»¸ömodel idÓëÊµ¼ÊmodelÃû³ÆµÄ¶ÔÓ¦¹ØÏµmap
-    public static Map<String,List<String>> map=new HashMap<String,List<String>>();
-    public static Map<String,String> id2NameMap=new HashMap<String,String>();
+    //é¦–å…ˆè·å–åˆ°æ¯ä¸€ä¸ªèŠ‚ç‚¹çš„ç±»å‹ï¼Œå› ä¸ºä¸€å“¥èŠ‚ç‚¹å¯èƒ½æœ‰å¤šä¸ªç±»å‹ï¼Œæ‰€ä»¥è¿™é‡Œè®¾ç½®äº†ä¸€ä¸ªlist
+    //åŒæ—¶è·å–ä¸€ä¸ªmodel idä¸å®é™…modelåç§°çš„å¯¹åº”å…³ç³»map
+    public Map<String,List<String>> map;
+    public Map<String,String> id2NameMap;
 
-    //±£´æÁìÓòÄ£ĞÍºÍ¶ÔÓ¦µÄ±ê¼ÇµÄÖµµÄ¶ÔÓ¦¹ØÏµ
-    public static Map<String, DomainObject> domainObjectMap=new HashMap<>();
-    public static Map<String,DomainObject> aggregateMap =new HashMap<>();
+    //ä¿å­˜é¢†åŸŸæ¨¡å‹å’Œå¯¹åº”çš„æ ‡è®°çš„å€¼çš„å¯¹åº”å…³ç³»
+    public Map<String, DomainObject> domainObjectMap;
+    public Map<String,DomainObject> aggregateMap;
 
-    //±£´æÁìÓòÄ£ĞÍºÍÁìÓòÄ£ĞÍ¶ÔÓ¦µÄÏŞ½çÉÏÏÂÎÄÖ®¼äµÄ¹ØÏµ
-    public static Map<String,String> class2PackageMap=new HashMap<>();
+    //ä¿å­˜é¢†åŸŸæ¨¡å‹å’Œé¢†åŸŸæ¨¡å‹å¯¹åº”çš„é™ç•Œä¸Šä¸‹æ–‡ä¹‹é—´çš„å…³ç³»
+    public Map<String,String> class2PackageMap;
 
-    //±£´æÏŞ½çÉÏÏÂÎÄÖ®¼äµÄÒÀÀµ¹ØÏµ
-    public static Map<String, Set<String>> dependMap=new HashMap<>();
-    //±£´æÏŞ½çÉÏÏÂÎÄÖ®¼äµÄ±»ÒÀÀµ¹ØÏµ
-    public static Map<String,Set<String>> dependedMap=new HashMap<>();
+    //ä¿å­˜é™ç•Œä¸Šä¸‹æ–‡ä¹‹é—´çš„ä¾èµ–å…³ç³»
+    public Map<String, Set<String>> dependMap;
+    //ä¿å­˜é™ç•Œä¸Šä¸‹æ–‡ä¹‹é—´çš„è¢«ä¾èµ–å…³ç³»
+    public Map<String,Set<String>> dependedMap;
+
+    //sourceXMLPathç”¨äºä¿å­˜å¤„ç†æ–‡ä»¶çš„è·¯å¾„
+    String sourceXMLPath;
+    //targetXMLPathç”¨äºä¿å­˜ç”Ÿæˆçš„æ–‡ä»¶çš„è·¯å¾„
+    String targetXMLPath;
+    //ç”¨æ¥ä¿å­˜å…¨éƒ¨å‡ºç°çš„javaç±»çš„åç§°
+    public Set<String> classNameSet ;
+
+    //ç”¨äºä¿å­˜ç”¨æˆ·åˆ›å»ºçš„æ¨¡å‹ä¸­çš„åŒ…ä¿¡æ¯ï¼ˆç”¨äºåç»­çš„æ¨¡å‹æ¯”è¾ƒåŠŸèƒ½ï¼‰
+    public Map<String, MyPackage> packageInfoMap;
+    //ç”¨äºä¿å­˜ç”¨æˆ·åˆ›å»ºçš„æ¨¡å‹ä¸­çš„æ¯ä¸€ä¸ªç±»çš„ä¿¡æ¯(ç”¨äºåç»­çš„æ¨¡å‹æ¯”è¾ƒåŠŸèƒ½ï¼‰
+    public Map<String, MyClass> classInfoMap;
+
+    public XMI2XML(String source,String target) throws Exception {
+        this.sourceXMLPath=source;
+        this.targetXMLPath=target;
+
+        init();
+    }
+
+    public XMI2XML() throws Exception {
+        this.sourceXMLPath = "source.xml";
+        this.targetXMLPath = "target.xml";
+
+        init();
+    }
+
+    private void init() throws Exception {
+        this.map = new HashMap<>();
+        this.id2NameMap = new HashMap<>();
+
+        this.domainObjectMap = new HashMap<>();
+        this.aggregateMap = new HashMap<>();
+
+        this.class2PackageMap = new HashMap<>();
+
+        this.dependMap = new HashMap<>();
+        this.dependedMap = new HashMap<>();
+
+        this.packageInfoMap = new HashMap<>();
+        this.classInfoMap = new HashMap<>();
+        this.classNameSet = new HashSet<>();
+
+        this.executeChange();
+    }
+
 
     public static void main(String[] args) throws Exception{
-        //ÓÃÓÚ±£´æ´¦ÀíÎÄ¼şµÄÂ·¾¶
-        String location="source.xml";
+        System.out.println("xmi to xml start");
+        XMI2XML cur = new XMI2XML();
 
-        //¶ÁÈ¡Ä£ĞÍµÄxmiÔ´Âë
-        File source=new File("source.xml");
+        System.out.println(cur.packageInfoMap);
+        System.out.println(cur.classInfoMap);
+        
+        System.out.println(cur.packageInfoMap.get("Cargo"));
+
+        Code2Model curr=new Code2Model(cur.packageInfoMap,cur.classInfoMap,new HashSet<>());
+        curr.generateStrategyModel("model3");
+        curr.generateModel("model4");
+
+    }
+
+    private void getClassInfo() throws Exception{
+        getClassAnnotation();
+
+        BufferedReader br=new BufferedReader(new FileReader(new File(targetXMLPath)));
+
+        String line;
+        String className = "";
+        String propertyName = "";
+
+        List<String> l=new ArrayList<>();
+
+        while((line=br.readLine())!=null){
+            if(line.contains("type=\"Class\"")){
+                className = getPropertyFromStr(line.indexOf("name"),line);
+            }
+            if(line.contains("type=\"Property\"")){
+                propertyName = getPropertyFromStr(line.indexOf("name"),line);
+                line = br.readLine();
+
+                String properType = getPropertyFromStr(line.indexOf("type"),line);
+                if(!classInfoMap.containsKey(className)){
+                    System.out.println("ä¸¢å¤±classï¼");
+                    continue;
+                }
+
+                classInfoMap.get(className).fields.add(new MyField(properType,propertyName));
+            }
+            l.add(line);
+
+        }
+
+        //papyrusç»˜å›¾å·¥å…·ä¸æ”¯æŒè¾“å…¥æ–¹æ³•çš„è¿”å›ç±»å‹
+        String returnType = "void";
+        for(int i=0;i<l.size();i++){
+            line=l.get(i);
+            if(line.contains("type=\"Class\"")){
+                className = getPropertyFromStr(line.indexOf("name"),line);
+            }
+
+            if(line.contains("type=\"Operation\"")){
+                String methodName = getPropertyFromStr(line.indexOf("name"),line);
+                MyMethod myMethod=new MyMethod(returnType,methodName,new ArrayList<>());
+                while(i<l.size()-1&&l.get(i+1).contains("type=\"Parameter\"")){
+                    line = l.get(++i);
+                    String parameterName = getPropertyFromStr(line.indexOf("name"),line);
+                    line = l.get(++i);
+                    String parameterType = getPropertyFromStr(line.indexOf("type"),line);
+                    i++;
+                    myMethod.parameters.add(new MyField(parameterType,parameterName));
+                    if(!classInfoMap.containsKey(className)){
+                        System.out.println("wrong className!");
+                        continue;
+                    }
+                    classInfoMap.get(className).methods.add(myMethod);
+                }
+            }
+        }
+
+        //å»é‡æ“ä½œ
+        for(String key:classInfoMap.keySet()){
+            MyClass myClass=classInfoMap.get(key);
+            myClass.associations = new ArrayList<>(new HashSet<>(myClass.associations));
+            myClass.dependency = new ArrayList<>(new HashSet<>(myClass.dependency));
+        }
+    }
+
+
+
+    //æ‰§è¡Œä¿®æ”¹çš„å‡½æ•°
+    //åŒæ—¶æŠ½å–classInfo
+    public void executeChange() throws Exception {
+
+        //è¯»å–æ¨¡å‹çš„xmiæºç 
+        File source=new File(this.sourceXMLPath);
         FileReader f=new FileReader(source);
         BufferedReader bf=new BufferedReader(f);
 
@@ -43,9 +172,23 @@ public class XMI2XML {
         String line;
         String packageId="";
 
-        //¶ÔÄ£ĞÍµÄxmiÎÄ¼ş¸ñÊ½×÷¼òµ¥µÄ´¦Àí
+        //å¯¹æ¨¡å‹çš„xmiæ–‡ä»¶æ ¼å¼ä½œç®€å•çš„å¤„ç†
+        //åŒæ—¶è·å–idä¸åç§°çš„å¯¹åº”å…³ç³»ï¼Œä»¥åŠclassä¸packageçš„å¯¹åº”å…³ç³»
         List<String> list=new ArrayList<>();
         while((line=bf.readLine())!=null) {
+            if(line.trim().startsWith("<ownedEnd")){
+                String typeName = getPropertyFromStr(line.indexOf("type",line.indexOf("type")+1),line);
+                String space=getSpaceByTime(getSpaceTime(line));
+
+                space+="<className className=\""+typeName+"\"/>";
+                list.add(space);
+                if(!line.contains("/>")){
+                    while(!(line=bf.readLine()).trim().equals("</ownedEnd>")){
+                        //System.out.println(line);
+                    }
+                }
+                continue;
+            }
 
             changeXMIStr(line,list);
 
@@ -60,14 +203,22 @@ public class XMI2XML {
 
         }
 
-        //System.out.println(map);
         for(String key:class2PackageMap.keySet()){
-            System.out.println(id2NameMap.get(key)+" belongs to "+id2NameMap.get(class2PackageMap.get(key)));
+            String pid=class2PackageMap.get(key);
+            if(pid.equals(key)){
+                continue;
+            }
+            String className = id2NameMap.get(key);
+            classInfoMap.put(className,new MyClass(className,new ArrayList<>(),new ArrayList<>(),new ArrayList<>()
+                    ,new ArrayList<>(),new ArrayList<>()));
         }
 
-        //ÌáÈ¡°üÓë°üÖ®¼äµÄÒÀÀµ¹ØÏµ
+
+        //æå–åŒ…ä¸åŒ…ä¹‹é—´çš„ä¾èµ–å…³ç³»
+        //åŒæ—¶æå–ç±»ä¸ç±»ä¹‹é—´çš„å…³ç³»
         String classId = "";
-        for(String l:list){
+        for(int i=0;i<list.size();i++){
+            String l =list.get(i);
             getDependency(l);
 
             if(l.contains("xmi:type=\"uml:Class\"")) {
@@ -75,38 +226,66 @@ public class XMI2XML {
             }
 
             getAssociation(l,classId);
+
+            if(l.contains("className")&&i<list.size()-1&&list.get(i+1).contains("className")){
+                String classId1 = getPropertyFromStr(l.indexOf("className"),l);
+                String className1=id2NameMap.get(classId1);
+                l=list.get(++i);
+                String classId2 = getPropertyFromStr(l.indexOf("className"),l);
+                String className2=id2NameMap.get(classId2);
+
+                if(!className1.equals(className2)&&classInfoMap.containsKey(className2)&&classInfoMap.containsKey(className1)){
+                    classInfoMap.get(className1).associations.add(className2);
+                    classInfoMap.get(className2).associations.add(className1);
+                }
+
+                String supplier = id2NameMap.get(class2PackageMap.get(classId1));
+                String client = id2NameMap.get(class2PackageMap.get(classId2));
+                if(!supplier.equals(client)) {
+
+                    dependMap.putIfAbsent(client, new HashSet<>());
+                    dependMap.putIfAbsent(supplier,new HashSet<>());
+                    dependMap.get(supplier).add(client);
+                    dependMap.get(client).add(supplier);
+
+                    dependedMap.putIfAbsent(supplier, new HashSet<>());
+                    dependedMap.get(supplier).add(client);
+                    dependedMap.putIfAbsent(client,new HashSet<>());
+                    dependedMap.get(client).add(supplier);
+                }
+            }
         }
 
-        System.out.println(dependMap);
-        System.out.println(dependedMap);
+//        System.out.println(dependMap);
+//        System.out.println(dependedMap);
 
-        //Éú³ÉµÄxmlÎÄ¼şµÄÎÄ¼şÂ·¾¢
-        File target=new File("target.xml");
+        //ç”Ÿæˆçš„xmlæ–‡ä»¶çš„æ–‡ä»¶è·¯åŠ²
+        File target=new File(targetXMLPath);
         target.createNewFile();
 
         BufferedWriter bw=new BufferedWriter(new FileWriter(target));
 
-        //Éú³ÉµÄxmlÎÄ¼şÖĞ£¬ÆäÖĞattributeÖĞµÄÊôĞÔ±ØĞëÔÚ""ÖĞ
+        //ç”Ÿæˆçš„xmlæ–‡ä»¶ä¸­ï¼Œå…¶ä¸­attributeä¸­çš„å±æ€§å¿…é¡»åœ¨""ä¸­
         for(int i=0;i<list.size();i++) {
             String s=list.get(i);
-            //Ê×ÏÈ¸ù¾İxmlÎÄ¼ş¸ñÊ½µÄÒªÇó£¬É¾³ıxmi¸ùÊ½ÖĞµÄxmi×Ö¶Î
+            //é¦–å…ˆæ ¹æ®xmlæ–‡ä»¶æ ¼å¼çš„è¦æ±‚ï¼Œåˆ é™¤xmiæ ¹å¼ä¸­çš„xmiå­—æ®µ
             s = changeFormatOfStr(s,map);
 
-            //ÔÚÉ¾³ıÁË¶à¸ö×Ö¶Îºó£¬¿ÉÄÜ³öÏÖÍ¬Ò»ĞĞÖĞ´æÔÚÁ½¸ötypeµÄÇé¿ö£¬ÕâÒ»²½Ö÷ÒªÎªÁË´¦ÀíÕâÒ»ÖÖÇé¿ö
+            //åœ¨åˆ é™¤äº†å¤šä¸ªå­—æ®µåï¼Œå¯èƒ½å‡ºç°åŒä¸€è¡Œä¸­å­˜åœ¨ä¸¤ä¸ªtypeçš„æƒ…å†µï¼Œè¿™ä¸€æ­¥ä¸»è¦ä¸ºäº†å¤„ç†è¿™ä¸€ç§æƒ…å†µ
             if(getTime(s,"type")==2) {
                 if(s.trim().startsWith("<ownedAttribute")&&!s.contains("association")) {
-                    //ÕâÖÖÇé¿öĞèÒªÉ¾³ıµÚ¶ş¸ötype;
+                    //è¿™ç§æƒ…å†µéœ€è¦åˆ é™¤ç¬¬äºŒä¸ªtype;
                     int secondTypeIndex=s.indexOf("type",s.indexOf("type")+1);
                     String id=getPropertyFromStr(secondTypeIndex,s);
                     String name=id2NameMap.get(id);
 
-                    //É¾³ıµÚÒ»ĞĞÖĞµÄµÚ¶ş¸ötype£¬°ÑÕâ¸ötype·ÅÔÚµÚ¶şĞĞÖĞ
+                    //åˆ é™¤ç¬¬ä¸€è¡Œä¸­çš„ç¬¬äºŒä¸ªtypeï¼ŒæŠŠè¿™ä¸ªtypeæ”¾åœ¨ç¬¬äºŒè¡Œä¸­
                     bw.write(s.substring(0,secondTypeIndex-1)+s.substring(secondTypeIndex+7+id.length(),s.length()-2)+">"+"\n");
                     bw.write(getSpaceByTime(getSpaceTime(s)+2)+"<type type=\""+name+"\"/>"+"\n");
-                    bw.write(getSpaceByTime(getSpaceTime(s))+"</ownedAttribute>");
+                    bw.write(getSpaceByTime(getSpaceTime(s))+"</ownedAttribute>\n");
                     continue;
                 }
-                //ÕâÖÖÇé¿öÏÂÕâĞĞÖ±½ÓÉ¾³ı
+                //è¿™ç§æƒ…å†µä¸‹è¿™è¡Œç›´æ¥åˆ é™¤
                 if(s.trim().startsWith("<ownedAttribute")&&s.contains("association")){
                     if(s.contains("/>"))
                         continue;
@@ -114,17 +293,22 @@ public class XMI2XML {
                         i++;
                     continue;
                 }
-                //ÕâÖÖÇé¿öÏÂÒ²Ö±½ÓÉ¾³ı
+                //è¿™ç§æƒ…å†µä¸‹ä¹Ÿç›´æ¥åˆ é™¤
                 if(s.trim().startsWith("<ownedEnd")&&s.contains("association")){
+                    String space=getSpaceByTime(getSpaceTime(s));
+                    String type=getPropertyFromStr(s.indexOf("type",s.indexOf("type")+1),s);
+
+                    bw.write(space+"<className className=\""+type+"\"/>"+"\n");
                     if(s.contains("/>"))
                         continue;
+
                     while(!list.get(i).trim().equals("</ownedEnd>"))
                         i++;
                     continue;
                 }
             }
 
-            //¶ÔÓÚpapyrusÖĞµÄprimitiveTypeµÄ¸ñÊ½×÷ÖØĞÂµÄµ÷Õû
+            //å¯¹äºpapyrusä¸­çš„primitiveTypeçš„æ ¼å¼ä½œé‡æ–°çš„è°ƒæ•´
             if(s.contains("type")&&getPropertyFromStr(s.indexOf("type"),s).equals("PrimitiveType")&&s.contains("href")){
                 String href=getPropertyFromStr(s.indexOf("href"),s);
                 String type=href.split("#")[1];
@@ -135,20 +319,20 @@ public class XMI2XML {
             }
             bw.write(s+"\n");
 
-            //¶ÔÓÚpackage¿ªÊ¼µÄ²¿·Ö£¬¿ÉÄÜĞèÒªÔö¼ÓÕâ¸öpackageµÄÉÏÓÎ¡¢ÏÂÓÎ¡¢ÒÔ¼°»ï°é¹ØÏµ
+            //å¯¹äºpackageå¼€å§‹çš„éƒ¨åˆ†ï¼Œå¯èƒ½éœ€è¦å¢åŠ è¿™ä¸ªpackageçš„ä¸Šæ¸¸ã€ä¸‹æ¸¸ã€ä»¥åŠä¼™ä¼´å…³ç³»
             if(s.contains("<packagedElement type=\"Package\"")){
                 String packageName = getPropertyFromStr(s.indexOf("name"),s);
                 int spaceTime=getSpaceTime(s);
 
                 for(String supplier:dependMap.getOrDefault(packageName,new HashSet<>())){
-                    //Èç¹ûsupplierÒ²ÒÀÀµÓÚ¸Ã°ü£¬ÔòÖ¤Ã÷ÕâÓ¦¸ÃÊÇÒ»¸ö»ï°é¹ØÏµ
+                    //å¦‚æœsupplierä¹Ÿä¾èµ–äºè¯¥åŒ…ï¼Œåˆ™è¯æ˜è¿™åº”è¯¥æ˜¯ä¸€ä¸ªä¼™ä¼´å…³ç³»
                     if(dependMap.getOrDefault(supplier,new HashSet<>()).contains(packageName)){
                         String add=getSpaceByTime(spaceTime+2);
                         add+="<Partnership ";
                         add+="anotherPartnershipContext=\""+supplier+"\"/>";
                         bw.write(add+"\n");
                     }
-                    //²»ÒÀÀµµÄÇé¿öÏÂ£¬Ö¤Ã÷Õâ¸ö°üÊÇÒ»¸öÏÂÓÎÏŞ½çÉÏÏÂÎÄ
+                    //ä¸ä¾èµ–çš„æƒ…å†µä¸‹ï¼Œè¯æ˜è¿™ä¸ªåŒ…æ˜¯ä¸€ä¸ªä¸‹æ¸¸é™ç•Œä¸Šä¸‹æ–‡
                     else{
                         String add= getSpaceByTime(spaceTime+2);
                         add+="<DownStreamContext ";
@@ -159,7 +343,7 @@ public class XMI2XML {
                 }
 
                 for(String client:dependedMap.getOrDefault(packageName,new HashSet<>())){
-                    //Èç¹ûclientÒ²±»ÒÀÀµ£¬ÔòÌø¹ıÕâÒ»Çé¿ö
+                    //å¦‚æœclientä¹Ÿè¢«ä¾èµ–ï¼Œåˆ™è·³è¿‡è¿™ä¸€æƒ…å†µ
                     if(dependMap.getOrDefault(packageName,new HashSet<>()).contains(client)){
                         continue;
                     }
@@ -173,13 +357,21 @@ public class XMI2XML {
         }
         bw.flush();
 
+        getClassInfo();
+        getPackageInfo();
     }
 
-    //ÌáÈ¡°üÓë°üÖ®¼äµÄ¹ØÁª¹ØÏµ
-    public static void getAssociation(String line,String classId){
+    //æå–åŒ…ä¸åŒ…ä¹‹é—´çš„å…³è”å…³ç³»
+    public void getAssociation(String line,String classId){
         if(line.trim().startsWith("<ownedAttribute")&&line.contains("association=")&&line.contains(" type=")){
             String supplier = id2NameMap.get(class2PackageMap.get(getPropertyFromStr(line.indexOf(" type="),line)));
             String client = id2NameMap.get(class2PackageMap.get(classId));
+
+            String supplierClass = id2NameMap.get(getPropertyFromStr(line.indexOf(" type="),line));
+            String clientClass = id2NameMap.get(classId);
+            if(classInfoMap.containsKey(supplierClass)&&classInfoMap.containsKey(clientClass)){
+                classInfoMap.get(clientClass).associations.add(supplierClass);
+            }
 
             //System.out.println(supplier+" "+client);
 
@@ -194,16 +386,22 @@ public class XMI2XML {
         }
     }
 
-    //ÌáÈ¡°üÓë°üÖ®¼äµÄÒÀÀµ¹ØÏµ
-    public static void getDependency(String line){
+    //æå–åŒ…ä¸åŒ…ä¹‹é—´çš„ä¾èµ–å…³ç³»
+    public void getDependency(String line){
 
         if(line.contains("xmi:type=\"uml:Dependency\"")){
-            //¿Í»§¶Ë
+            //å®¢æˆ·ç«¯
             String client=id2NameMap.get(class2PackageMap.get(getPropertyFromStr(line.indexOf("client"),line)));
-            //±»ÒÀÀµ¶Ë
+            //è¢«ä¾èµ–ç«¯
             String supplier = id2NameMap.get(class2PackageMap.get(getPropertyFromStr(line.indexOf("supplier"),line)));
 
-            //Í¬Ò»¸öÏŞ½çÉÏÏÂÎÄ²»¹¹³É°üÖ®¼äµÄÒÀÀµ¹ØÏµ
+            String clientClass = id2NameMap.get(getPropertyFromStr(line.indexOf("client"),line));
+            String supplierClass = id2NameMap.get(getPropertyFromStr(line.indexOf("supplier"),line));
+            if(classInfoMap.containsKey(clientClass)&&classInfoMap.containsKey(supplierClass)){
+                classInfoMap.get(clientClass).dependency.add(supplierClass);
+            }
+
+            //åŒä¸€ä¸ªé™ç•Œä¸Šä¸‹æ–‡ä¸æ„æˆåŒ…ä¹‹é—´çš„ä¾èµ–å…³ç³»
             if(client.equals(supplier))
                 return ;
 
@@ -216,19 +414,180 @@ public class XMI2XML {
 
     }
 
-    //¸üĞÂµ±Ç°µÄ°üÃû
-    public static String getCurPackageName(String packageName,String line){
+
+    private void getClassAnnotation(){
+        for(String key:domainObjectMap.keySet()){
+            DomainObject cur=domainObjectMap.get(key);
+            String className = id2NameMap.get(key);
+            MyClass myClass = classInfoMap.getOrDefault(className,null);
+            if(myClass==null)
+                continue;
+            switch (getClassName(cur)){
+                case "Entity":
+                    MyAnnotation myAnnotation=new MyAnnotation("Entity",new ArrayList<>());
+                    myAnnotation.parameters.add(new MyAnnotationParameter("identifier",((Entity)cur).identifier));
+                    myClass.annotations.add(myAnnotation);
+                    break;
+                case "ValueObject":
+                    myAnnotation = new MyAnnotation("ValueObject",new ArrayList<>());
+                    myClass.annotations.add(myAnnotation);
+                    break;
+                case "DomainEvent":
+                    myAnnotation = new MyAnnotation("DomainEvent",new ArrayList<>());
+                    myAnnotation.parameters.add(new MyAnnotationParameter("identifier",((DomainEvent)cur).identifier));
+                    myAnnotation.parameters.add(new MyAnnotationParameter("timestamp",((DomainEvent)cur).timestamp));
+                    myAnnotation.parameters.add(new MyAnnotationParameter("publisher",((DomainEvent)cur).publisher));
+                    myAnnotation.parameters.add(new MyAnnotationParameter("subscriber",((DomainEvent)cur).subscriber));
+                    myClass.annotations.add(myAnnotation);
+                    break;
+                case "DomainService":
+                    myAnnotation = new MyAnnotation("DomainService",new ArrayList<>());
+                    myClass.annotations.add(myAnnotation);
+                    break;
+                case "Repository":
+                    myAnnotation = new MyAnnotation("Repository",new ArrayList<>());
+                    myAnnotation.parameters.add(new MyAnnotationParameter("accessingDomainObject",((Repository)cur).accessingDomainObject));
+                    myClass.annotations.add(myAnnotation);
+                    break;
+                case "Factory":
+                    myAnnotation = new MyAnnotation("Factory",new ArrayList<>());
+                    myAnnotation.parameters.add(new MyAnnotationParameter("creatingDomainObject",((Factory)cur).creatingDomainObject));
+                    myClass.annotations.add(myAnnotation);
+                    break;
+            }
+        }
+
+        for(String key:aggregateMap.keySet()){
+            String className = id2NameMap.get(key);
+            DomainObject cur=aggregateMap.get(key);
+            MyClass myClass=classInfoMap.get(className);
+
+            switch (getClassName(cur)){
+                case "AggregateRoot":
+                    MyAnnotation myAnnotation=new MyAnnotation("AggregateRoot",new ArrayList<>());
+                    myClass.annotations.add(myAnnotation);
+                    break;
+                case "AggregatePart":
+                    myAnnotation = new MyAnnotation("AggregatePart",new ArrayList<>());
+                    myAnnotation.parameters.add(new MyAnnotationParameter
+                            ("aggregateRootType",((AggregatePart)cur).aggregateRootType));
+                    myClass.annotations.add(myAnnotation);
+                    break;
+            }
+        }
+    }
+
+
+
+    private void getPackageInfo(){
+        for(String key:domainObjectMap.keySet()){
+            String packageName = id2NameMap.get(key);
+            switch (getClassName(domainObjectMap.get(key))){
+                case "BoundedContext":
+                    MyPackage myPackage=new MyPackage(id2NameMap.get(key),new ArrayList<>(),new ArrayList<>());
+                    List<MyAnnotationParameter> boundedContextList=new ArrayList<>();
+                    boundedContextList.add(new MyAnnotationParameter("name",id2NameMap.get(key)));
+                    myPackage.annotations.add(new MyAnnotation("BoundedContext",boundedContextList));
+
+                    addMyPackage(myPackage,key);
+                    packageInfoMap.put(packageName,myPackage);
+                    break;
+                case "Aggregate":
+                    myPackage=new MyPackage(id2NameMap.get(key),new ArrayList<>(),new ArrayList<>());
+
+                    List<MyAnnotationParameter> aggregateContextList=new ArrayList<>();
+                    aggregateContextList.add(new MyAnnotationParameter("name",id2NameMap.get(key)));
+                    myPackage.annotations.add(new MyAnnotation("Aggregate",aggregateContextList));
+
+                    addMyPackage(myPackage,key);
+                    packageInfoMap.put(packageName,myPackage);
+                    break;
+                case "Module":
+                    myPackage=new MyPackage(id2NameMap.get(key),new ArrayList<>(),new ArrayList<>());
+
+                    List<MyAnnotationParameter> moduleContextList=new ArrayList<>();
+                    moduleContextList.add(new MyAnnotationParameter("name",id2NameMap.get(key)));
+                    myPackage.annotations.add(new MyAnnotation("Module",moduleContextList));
+
+                    addMyPackage(myPackage,key);
+                    packageInfoMap.put(packageName,myPackage);
+
+                    break;
+                case "SharedKernel":
+                    myPackage=new MyPackage(id2NameMap.get(key),new ArrayList<>(),new ArrayList<>());
+                    SharedKernel sk= (SharedKernel) domainObjectMap.get(key);
+
+                    List<MyAnnotationParameter> sharedKernelContextList=new ArrayList<>();
+                    sharedKernelContextList.add(new MyAnnotationParameter("name",id2NameMap.get(key)));
+                    sharedKernelContextList.add(new MyAnnotationParameter("oneContext",sk.getOneContext()));
+                    sharedKernelContextList.add(new MyAnnotationParameter("theOtherContext",sk.getTheOtherContext()));
+
+                    myPackage.annotations.add(new MyAnnotation("SharedKernel",sharedKernelContextList));
+
+
+                    addMyPackage(myPackage,key);
+                    packageInfoMap.put(packageName,myPackage);
+                    break;
+            }
+
+        }
+
+    }
+
+    private void addMyPackage(MyPackage myPackage, String key){
+        //è¯¥åŒ…æ‰€åŒ…å«çš„javaç±»
+        for(String classId:class2PackageMap.keySet()){
+            if(class2PackageMap.get(classId).equals(key)){
+                if(classId.equals(key)) {
+                    continue;
+                }
+                myPackage.className.add(id2NameMap.get(classId));
+                System.out.println(myPackage.name+" "+id2NameMap.get(classId));
+            }
+        }
+
+        String packageName = id2NameMap.get(key);
+        for(String dependContext:dependMap.getOrDefault(packageName,new HashSet<>())){
+            //åŒå‘ä¾èµ–ï¼Œå»ºç«‹ä¼™ä¼´å…³ç³»
+            if(dependedMap.getOrDefault(packageName,new HashSet<>()).contains(dependContext)){
+                MyAnnotation myAnnotation=new MyAnnotation("Partnership",new ArrayList<>());
+                myAnnotation.parameters.add(new MyAnnotationParameter("anotherPartnershipContext",dependContext));
+                myPackage.annotations.add(myAnnotation);
+            }else {
+                MyAnnotation myAnnotation = new MyAnnotation("DownStreamContext", new ArrayList<>());
+                myAnnotation.parameters.add(new MyAnnotationParameter("upStreamContextName", dependContext));
+                myAnnotation.parameters.add(new MyAnnotationParameter("downStreamContextType", "Default"));
+                myPackage.annotations.add(myAnnotation);
+            }
+        }
+        for(String dependedContext:dependedMap.getOrDefault(packageName,new HashSet<>())){
+            //åŒå‘ä¾èµ–ï¼Œå·²ç»å»ºç«‹è¿‡ä¼™ä¼´å…³ç³»ï¼Œç›´æ¥continue
+            if(dependMap.getOrDefault(packageName,new HashSet<>()).contains(dependedContext)){
+                continue;
+            }
+            MyAnnotation myAnnotation=new MyAnnotation("UpStreamContext",new ArrayList<>());
+            myAnnotation.parameters.add(new MyAnnotationParameter("downStreamContextName",dependedContext));
+            myAnnotation.parameters.add(new MyAnnotationParameter("upStreamContextType","Default"));
+            myPackage.annotations.add(myAnnotation);
+        }
+    }
+
+
+
+
+    //æ›´æ–°å½“å‰çš„åŒ…å
+    public String getCurPackageName(String packageName,String line){
 
         if(line.contains("xmi:type=\"uml:Package\"")) {
             String newPackageName = getPropertyFromStr(line.indexOf("xmi:id="), line);
-            //ÆäÖĞ°ü¶ÔÓ¦µÄ°üÊÇËû×Ô¼º
+            //å…¶ä¸­åŒ…å¯¹åº”çš„åŒ…æ˜¯ä»–è‡ªå·±
             class2PackageMap.put(newPackageName,newPackageName);
             return newPackageName;
         }
         return packageName;
     }
 
-    public static void getId2NameMap(Map<String,String> map,String s) {
+    public void getId2NameMap(Map<String,String> map,String s) {
         if(s.contains("xmi:id=")&&s.contains("name=")) {
             int idIndex=s.indexOf("xmi:id");
             String id=getPropertyFromStr(idIndex,s);
@@ -242,7 +601,7 @@ public class XMI2XML {
         }
     }
 
-    private static String getPropertyFromStr(int index,String str) {
+    private String getPropertyFromStr(int index,String str) {
         int time=0;
         String res="";
 
@@ -257,7 +616,7 @@ public class XMI2XML {
         return res;
     }
 
-    private static int getTime(String str,String slice) {
+    private int getTime(String str,String slice) {
         int start=-1;
         int time=0;
         while((start=str.indexOf(slice, start+1))!=-1) {
@@ -266,14 +625,14 @@ public class XMI2XML {
         return time;
     }
 
-    private static int getSpaceTime(String line){
+    private int getSpaceTime(String line){
         int index=0;
         while(index<line.length()&&line.charAt(index)==' ')
             index++;
         return index;
     }
 
-    private static String getSpaceByTime(int time){
+    private String getSpaceByTime(int time){
         StringBuilder sb=new StringBuilder();
         for(int i=0;i<time;i++)
             sb.append(" ");
@@ -281,10 +640,10 @@ public class XMI2XML {
     }
 
 
-    //Ê×ÏÈ¶ÔxmiµÄ×Ö·û´®×÷¼òµ¥µÄ´¦Àí£¬ÌáÈ¡¶ÔÏó£¬É¾³ı":"·ûºÅ
-    private static void  changeXMIStr(String line,List<String> list){
+    //é¦–å…ˆå¯¹xmiçš„å­—ç¬¦ä¸²ä½œç®€å•çš„å¤„ç†ï¼Œæå–å¯¹è±¡ï¼Œåˆ é™¤":"ç¬¦å·
+    private void  changeXMIStr(String line,List<String> list){
 
-        //xmlÖĞ²»±£ÁôµÄxmiÎÄ¼şµÄ×Ö·û´®
+        //xmlä¸­ä¸ä¿ç•™çš„xmiæ–‡ä»¶çš„å­—ç¬¦ä¸²
         if(line.contains("xmi:version=")||line.contains("</xmi:XMI>"))
             return;
 
@@ -310,7 +669,7 @@ public class XMI2XML {
                 map.putIfAbsent(id, new ArrayList<>());
                 map.get(id).add(type);
                 //System.out.println(type+" "+id);
-                //´æ´¢Ã¿¸ö¹¹ÔìĞÔµÄ±ê¼ÇÖµ
+                //å­˜å‚¨æ¯ä¸ªæ„é€ æ€§çš„æ ‡è®°å€¼
                 DomainObject o;
                 switch (type){
                     case "Entity":
@@ -335,7 +694,6 @@ public class XMI2XML {
                         domainObjectMap.put(id,o);
                         break;
                     case "Repository":
-                    	System.out.println(line);
                         String accessingDomainObject=getPropertyFromStr(line.indexOf("accessingDomainObject"),line);
                         o=new Repository(id2NameMap.get(accessingDomainObject));
                         domainObjectMap.put(id,o);
@@ -354,7 +712,7 @@ public class XMI2XML {
                         o=new AggregateRoot();
                         aggregateMap.put(id,o);
                         break;
-                    //ÕâÖÖÇé¿ö¶ÔÓ¦ÓÚpackageÔªËØÊÇÒ»¸öpackageÊ±
+                    //è¿™ç§æƒ…å†µå¯¹åº”äºpackageå…ƒç´ æ˜¯ä¸€ä¸ªpackageæ—¶
                     case "BoundedContext":
                         o=new BoundedContext();
                         domainObjectMap.put(id,o);
@@ -388,12 +746,12 @@ public class XMI2XML {
     }
 
 
-    //ÕâÒ»·½·¨ÓÃÓÚµ÷ÕûÊä³öµÄxmlÎÄ¼ş¸ñÊ½
-    public static String changeFormatOfStr(String str,Map<String,List<String>> map) {
+    //è¿™ä¸€æ–¹æ³•ç”¨äºè°ƒæ•´è¾“å‡ºçš„xmlæ–‡ä»¶æ ¼å¼
+    public String changeFormatOfStr(String str,Map<String,List<String>> map) {
         str=removeStr(str,"xmi:");
         str=removeStr(str,"uml:");
 
-        //¸øelementÌí¼ÓDDD type,µ±ÁìÓòÄ£ĞÍ´æÔÚ¶à¸öDDD typeÊ±£¬´úÂë¿ÉÄÜĞèÒªĞŞ¸Ä
+        //ç»™elementæ·»åŠ DDD type,å½“é¢†åŸŸæ¨¡å‹å­˜åœ¨å¤šä¸ªDDD typeæ—¶ï¼Œä»£ç å¯èƒ½éœ€è¦ä¿®æ”¹
         if(str.contains("id=")) {
             String id="";
             List<String> dType=new ArrayList<>();
@@ -412,10 +770,12 @@ public class XMI2XML {
             }else if (dType.size()==2) {
                 Collections.sort(dType);
 
-                //ÕâÖÖÇé¿öËµÃ÷dType¸ñÊ½ÓĞÎÊÌâ
+                //è¿™ç§æƒ…å†µè¯´æ˜dTypeæ ¼å¼æœ‰é—®é¢˜
                 if(!dType.get(0).startsWith("Aggregate")||dType.get(1).startsWith("Aggregate")) {
-                    System.out.println("dType ¸ñÊ½ÓĞÎó");
-                    return "";
+                    System.out.println("dType wrong format:" +dType);
+
+                    if(!dType.get(0).equals(dType.get(1)))
+                        return "";
                 }
 
                 String add =  " dtype=\""+dType.get(1)+"\" "+domainObjectMap.get(id)+" annotion=\"@"+dType.get(0)+aggregateMap.get(id)+"\"";
@@ -430,8 +790,8 @@ public class XMI2XML {
     }
 
 
-    //ÕâÒ»¸ö·½·¨ÓÃÓÚÒÆ³ıxmiÎÄ¼şÖĞ²»±ØÒªµÄ×Ö·û´®Ç°×º
-    public static String removeStr(String source,String remove) {
+    //è¿™ä¸€ä¸ªæ–¹æ³•ç”¨äºç§»é™¤xmiæ–‡ä»¶ä¸­ä¸å¿…è¦çš„å­—ç¬¦ä¸²å‰ç¼€
+    public String removeStr(String source,String remove) {
         int removeLength=remove.length();
         int start=-removeLength;
 
@@ -448,5 +808,13 @@ public class XMI2XML {
 
         return result.toString();
     }
+
+    private String getClassName(DomainObject cur){
+        String name=cur.getClass().getName();
+        String[] n=name.split("\\.");
+
+        return n[n.length-1];
+    }
+
 
 }

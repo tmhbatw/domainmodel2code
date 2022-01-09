@@ -11,6 +11,14 @@ public class SharedKernel extends DomainObject{
         this.theOtherContext=anotherContext;
     }
 
+    public String getOneContext(){
+        return this.oneContext;
+    }
+
+    public String getTheOtherContext(){
+        return this.theOtherContext;
+    }
+
     public String toString(){
         return "oneContext = "+"\""+this.oneContext+"\" "+
                 "theOtherContext = \""+this.theOtherContext+"\"";

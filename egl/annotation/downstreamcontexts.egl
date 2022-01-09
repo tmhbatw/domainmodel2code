@@ -4,6 +4,6 @@ import java.lang.annotation.*;
 
 @Target({ ElementType.PACKAGE})
 @Retention(RetentionPolicy.RUNTIME)
-@interface DownStreamContexts {
+public @interface DownStreamContexts {
     DownStreamContext[] value();
 }

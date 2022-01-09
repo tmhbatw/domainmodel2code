@@ -1,7 +1,7 @@
 package gen.annotation;
 
 public enum DownStreamContextType {
-    //default字段表示这个上游限界上下文没有默认的实现方式
+    //default瀛楁鐢ㄦ潵琛ㄧず娌℃湁鐗规畩澹版槑涓嬫父闄愮晫涓婁笅鏂囧疄鐜版柟寮忕殑鎯呭喌
     Default,
     Conformist,
     AnticorruptionLayer;

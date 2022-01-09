@@ -3,20 +3,15 @@ package gen.[%=ele.parent.s_name%];
 
 import gen.annotation.Repository;
 
-@Repository(accessingDomainObject = "[%=ele.s_accessingDomainObject%]")
+@Repository(accessingDomainObject = [%=ele.s_accessingDomainObject%].class)
 
 public class [%=ele.s_name%]{
-
-
-	[* Éú³É×ÊÔ´¿âµÄÊôĞÔ*]
+	[*ç”Ÿæˆèµ„æºåº“æ‰€åŒ…å«çš„å±æ€§*]
 [%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
-
-	//ËùÉú³ÉµÄ×ÊÔ´¿âËù°üº¬µÄÊôĞÔ
+	//è¯¥èµ„æºåº“æ‰€åŒ…å«çš„å±æ€§
 	private [%=attributeType%] [%=attribute.s_name %];
 [%}%]
-	
-	
 	[%var parameter=""; %]
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();	
@@ -27,7 +22,7 @@ public class [%=ele.s_name%]{
 	[% if(parameter.length()>0)
 		parameter=parameter.substring(0,parameter.length()-1);%]
 	
-	//Éú³É×ÊÔ´¿âµÄº¬²Î¹¹Ôìº¯Êı
+	//è¯¥èµ„æºåº“æ‰€åŒ…å«çš„å«å‚æ„é€ å‡½æ•°
 	public [%=ele.s_name%]([%=parameter%]){
 		[%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
@@ -35,9 +30,7 @@ public class [%=ele.s_name%]{
 		[%}%]
 	
 	}
-	
-	
-	[*Éú³É×ÊÔ´¿âµÄ·½·¨ *]
+	[*ç”Ÿæˆèµ„æºåº“æ‰€åŒ…å«çš„æ“ä½œ *]
 
 	[%for (o in ele.c_ownedOperation) { %]
 	[% 	var name = o.s_name;	
@@ -53,19 +46,16 @@ public class [%=ele.s_name%]{
 		}
 	%]
 		
-	//×Ô¶¯Éú³ÉµÄ×ÊÔ´¿âµÄ·½·¨¿ò¼Ü£¬ĞèÒªÈí¼ş¿ª·¢ÈËÔ±ÊÖ¶¯ÊµÏÖÖ÷Ìå²¿·Ö
+	//ç”Ÿæˆé¢†åŸŸæœåŠ¡å¯¹åº”çš„æ“ä½œï¼Œéœ€è¦è½¯ä»¶å¼€å‘äººå‘˜è¿›è¡Œè¡¥å……
 	public void [%=name %]([%=operationParameter%]){
 	
 	}
 	[%}%]
-
-
-	//Éú³É×ÊÔ´¿âÊôĞÔµÄgetterÓësetter·½·¨
+	//ç”Ÿæˆå±æ€§çš„getterä»¥åŠsetteræ–¹æ³•
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();
 		var name = attribute.s_name;
 		var newname = name.substring(0,1).toUpperCase() + name.substring(1);	%]	 
-	 
 	public [%=attributeType%] get[%=newname%](){
 	
 		return this.[%=name%];

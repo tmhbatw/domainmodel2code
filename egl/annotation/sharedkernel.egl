@@ -2,7 +2,7 @@ package gen.annotation;
 
 import java.lang.annotation.*;
 
-//用于两个限界上下文
+//鍏变韩鍐呮牳琚敤浜庤闄愮晫涓婁笅鏂囪鐢ㄤ簬涓や釜闄愮晫涓婁笅鏂囩殑鎯呭喌
 @Target({ElementType.TYPE, ElementType.PACKAGE,ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SharedKernel {

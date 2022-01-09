@@ -9,9 +9,11 @@
       <packagedElement type="Class" id="_fMqZUGZNEeyQRaS3pvwf2Q" name="CarrierMovement" dtype="ValueObject"  annotion="@AggregatePart(aggregateRootType = Voyage.class)">
         <ownedAttribute type="Property" id="_ZYkW8GZREeyQRaS3pvwf2Q" name="departmentLocation">
           <type type="Location"/>
-        </ownedAttribute>        <ownedAttribute type="Property" id="_LfwogGZbEeyQRaS3pvwf2Q" name="arriveLocation">
+        </ownedAttribute>
+        <ownedAttribute type="Property" id="_LfwogGZbEeyQRaS3pvwf2Q" name="arriveLocation">
           <type type="Location"/>
-        </ownedAttribute>        <ownedAttribute type="Property" id="_hH2RoGZjEeyQRaS3pvwf2Q" name="departureTime">
+        </ownedAttribute>
+        <ownedAttribute type="Property" id="_hH2RoGZjEeyQRaS3pvwf2Q" name="departureTime">
           <type type="Date"/>
         </ownedAttribute>
         <ownedAttribute type="Property" id="_oD8hEGZjEeyQRaS3pvwf2Q" name="arriveTime">
@@ -146,28 +148,32 @@
       <eAnnotations type="ecore:EAnnotation" id="_u2lRgGZuEeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
         <details type="ecore:EStringToStringMapEntry" id="_u2lRgWZuEeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
       </eAnnotations>
+      <className className="_YsQrwGZrEeyQRaS3pvwf2Q"/>
     </packagedElement>
     <packagedElement type="Association" id="_Fcte8GZxEeyQRaS3pvwf2Q" memberEnd="_FcuGAmZxEeyQRaS3pvwf2Q _FcuGBWZxEeyQRaS3pvwf2Q">
       <eAnnotations type="ecore:EAnnotation" id="_FcuGAGZxEeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
         <details type="ecore:EStringToStringMapEntry" id="_FcuGAWZxEeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
       </eAnnotations>
+      <className className="__unbEGZtEeyQRaS3pvwf2Q"/>
     </packagedElement>
     <packagedElement type="Association" id="_TMM7gGZ2EeyQRaS3pvwf2Q" memberEnd="_TMNikmZ2EeyQRaS3pvwf2Q _TMR0AGZ2EeyQRaS3pvwf2Q">
       <eAnnotations type="ecore:EAnnotation" id="_TMNikGZ2EeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
         <details type="ecore:EStringToStringMapEntry" id="_TMNikWZ2EeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
       </eAnnotations>
+      <className className="_XJY_QGZ1EeyQRaS3pvwf2Q"/>
     </packagedElement>
     <packagedElement type="Association" id="_jCTRgGZ2EeyQRaS3pvwf2Q" visibility="package" memberEnd="_jCTRg2Z2EeyQRaS3pvwf2Q _jCT4kmZ2EeyQRaS3pvwf2Q">
       <eAnnotations type="ecore:EAnnotation" id="_jCTRgWZ2EeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
         <details type="ecore:EStringToStringMapEntry" id="_jCTRgmZ2EeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
       </eAnnotations>
+      <className className="_XJY_QGZ1EeyQRaS3pvwf2Q"/>
     </packagedElement>
     <packagedElement type="Association" id="_L6o88GZ3EeyQRaS3pvwf2Q" visibility="private" memberEnd="_L6pkAmZ3EeyQRaS3pvwf2Q _L6pkBWZ3EeyQRaS3pvwf2Q">
       <eAnnotations type="ecore:EAnnotation" id="_L6pkAGZ3EeyQRaS3pvwf2Q" source="org.eclipse.papyrus">
         <details type="ecore:EStringToStringMapEntry" id="_L6pkAWZ3EeyQRaS3pvwf2Q" key="nature" value="UML_Nature"/>
       </eAnnotations>
+      <className className="_YsQrwGZrEeyQRaS3pvwf2Q"/>
     </packagedElement>
-    <packagedElement type="Class" id="_smtw8Gk9EeyfLoS_7k1JGw" name="Class15"/>
     <profileApplication type="ProfileApplication" id="_W4AbgGZNEeyQRaS3pvwf2Q">
       <eAnnotations type="ecore:EAnnotation" id="_9ztmkGfLEeybU4PA43gGRw" source="PapyrusVersion">
         <details type="ecore:EStringToStringMapEntry" id="_9ztmkWfLEeybU4PA43gGRw" key="Version" value="0.0.7"/>

@@ -2,6 +2,6 @@ package gen.annotation;
 
 public enum UpStreamContextType {
     OpenHostService,
-    //defaultвж╤н╠Мй╬уБ╦Жобсноч╫Гиообндц╩спд╛хо╣дй╣ож╥╫й╫
+    //defaultГ■╗Д╨▌Х║╗Г╓╨Е╞╧Д╦┼Ф╦╦И≥░Г∙▄Д╦┼Д╦▀Ф√┤Г └Е╝·Г▌╟Ф√╧Е╪▐Д╦█Е│ Х╕│Ф╠┌
     Default;
 }

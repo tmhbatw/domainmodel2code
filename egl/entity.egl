@@ -3,22 +3,21 @@ package gen.[%=ele.parent.s_name%];
 import gen.annotation.Entity;
 import gen.annotation.DomainAttribute;
 import gen.annotation.DomainBehaviour;
+import gen.annotation.AggregateRoot;
+import gen.annotation.AggregatePart;
 
 [%=ele.s_annotion%]
 @Entity(identifier = "[%=ele.s_identifier%]")
 
 public class [%=ele.s_name%]{
-
-
-	[* Éú³ÉÊµÌåµÄÊôĞÔ*]
+	[*å®ä½“*]
 [%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
 	
-	//ËùÉú³ÉµÄÊµÌåÊôĞÔ
+	//å®ä½“å±æ€§
 	@DomainAttribute
 	private [%=attributeType%] [%=attribute.s_name %];
 [%}%]
-	
 	[%var parameter=""; %]
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();	
@@ -28,8 +27,7 @@ public class [%=ele.s_name%]{
 		
 	[% if(parameter.length()>0)
 		parameter=parameter.substring(0,parameter.length()-1);%]
-		
-	//º¬²Î¹¹Ôìº¯Êı
+	//å®ä½“çš„å«å‚æ„é€ å‡½æ•°
 	public [%=ele.s_name%]([%=parameter%]){
 		[%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
@@ -37,14 +35,11 @@ public class [%=ele.s_name%]{
 		[%}%]
 	
 	}
-	
-	//²»º¬²Î¹¹Ôìº¯Êı
-	public [%=ele.s_name%](){
-	
-	}
-	
-	[*Éú³ÉÊµÌåµÄ·½·¨ *]
-
+	//è¯¥å®ä½“çš„ä¸å«å‚æ„é€ å‡½æ•°
+//	public [%=ele.s_name%](){
+//	
+//	}
+	[*ç”Ÿæˆå®ä½“æ–¹æ³•*]
 	[%for (o in ele.c_ownedOperation) { %]
 	[% 	var name = o.s_name;	
 		var operationParameter = ""; 
@@ -59,20 +54,17 @@ public class [%=ele.s_name%]{
 		}
 	%] 
 	
-	//×Ô¶¯Éú³ÉµÄÊµÌåµÄ·½·¨¿ò¼Ü£¬ĞèÒªÈí¼ş¿ª·¢ÈËÔ±ÊÖ¶¯ÊµÏÖÖ÷Ìå²¿·Ö
+	//å®ä½“æ–¹æ³•ï¼Œéœ€è¦å¼€å‘äººå‘˜æ‰‹åŠ¨å®ç°
 	@DomainBehaviour
 	public void [%=name %]([%=operationParameter%]){
 	
 	}
 [%}%]
-
-
-	//ÊôĞÔµÄgetterÓësetter·½·¨
+	//å®ä½“å±æ€§çš„getterä»¥åŠsetteræ–¹æ³•
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();
 		var name = attribute.s_name;
 		var newname = name.substring(0,1).toUpperCase() + name.substring(1);	%]	 
-	 
 	public [%=attributeType%] get[%=newname%](){
 	
 		return this.[%=name%];

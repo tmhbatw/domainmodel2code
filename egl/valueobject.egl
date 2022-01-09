@@ -4,22 +4,18 @@ package gen.[%=ele.parent.s_name%];
 import gen.annotation.ValueObject;
 import gen.annotation.DomainAttribute;
 import gen.annotation.DomainBehaviour;
+import gen.annotation.AggregatePart;
 
 [%=ele.s_annotion%]
 @ValueObject
-
 public class [%=ele.s_name%]{
-
-	[* Éú³ÉÖµ¶ÔÏóµÄÊôĞÔ*]
+	[*ç”¨äºç”Ÿæˆå€¼å¯¹è±¡çš„å±æ€§*]
 [%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
-	
-	//Öµ¶ÔÏóËù°üº¬µÄÊôĞÔ
+	//ç”Ÿæˆå€¼å¯¹è±¡çš„å±æ€§
 	@DomainAttribute
 	private [%=attributeType%] [%=attribute.s_name %];
 [%}%]
-	
-	
 	[%var parameter=""; %]
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();	
@@ -30,7 +26,7 @@ public class [%=ele.s_name%]{
 	[% if(parameter.length()>0)
 		parameter=parameter.substring(0,parameter.length()-1);%]
 		
-	//Éú³ÉÖµ¶ÔÏóµÄº¬²Î¹¹Ôìº¯Êı
+	//ç”¨äºç”Ÿæˆå€¼å¯¹è±¡çš„å«å‚æ„é€ å‡½æ•°
 	public [%=ele.s_name%]([%=parameter%]){
 		[%for (attribute in ele.c_ownedAttribute) { %]
 	[% var attributeType = attribute.c_type.s_type.first();	%]	 
@@ -38,15 +34,11 @@ public class [%=ele.s_name%]{
 		[%}%]
 	
 	}
-	
-
-	//Éú³ÉÖµ¶ÔÏóµÄÎŞ²Î¹¹Ôìº¯Êı
-	public [%=ele.s_name%](){
-		this.name = [%=ele.s_name%];
-	}
-	
-	
-	[*Éú³ÉÖµ¶ÔÏóµÄ·½·¨ *]
+	//ç”¨äºç”Ÿæˆå€¼å¯¹è±¡çš„ä¸å«å‚æ„é€ å‡½æ•°ï¼Œå¦‚æœå€¼å¯¹è±¡æœ¬èº«ä¸å«å‚æ•°ï¼Œé‚£ä¹ˆå¯ä»¥ç›´æ¥åˆ é™¤
+//	public [%=ele.s_name%](){
+//
+//	}
+	[*ç”Ÿæˆå€¼å¯¹è±¡çš„æ“ä½œ *]
 
 	[%for (o in ele.c_ownedOperation) { %]
 	[% 	var name = o.s_name;	
@@ -62,20 +54,18 @@ public class [%=ele.s_name%]{
 		}
 	%] 
 	
-	//×Ô¶¯Éú³ÉµÄÖµ¶ÔÏóµÄ·½·¨¿ò¼Ü£¬ĞèÒªÈí¼ş¿ª·¢ÈËÔ±ÊÖ¶¯ÊµÏÖÖ÷Ìå²¿·Ö
+	//ç”¨äºè¡¨ç¤ºå€¼å¯¹è±¡çš„é¢†åŸŸè¡Œä¸º
 	@DomainBehaviour
 	public void [%=name %]([%=operationParameter%]){
 	
 	}
 [%}%]
 
-
-	//¸ÃÖµ¶ÔÏóÊôĞÔËù¶ÔÓ¦µÄgetter¡¢setter·½·¨
+	//å€¼å¯¹è±¡å±æ€§çš„getterä»¥åŠsetteræ–¹æ³•
 	[%for (attribute in ele.c_ownedAttribute) { %]
 	[% 	var attributeType = attribute.c_type.s_type.first();
 		var name = attribute.s_name;
 		var newname = name.substring(0,1).toUpperCase() + name.substring(1);	%]	 
-	 
 	public [%=attributeType%] get[%=newname%](){
 	
 		return this.[%=name%];
