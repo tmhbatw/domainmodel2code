@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="epsilon-core-1.4.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/epsilon-core-1.4.0.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.common-2.3.0.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.egl.engine-2.3.0.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.emc.emf-2.3.0.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.eol.engine-2.3.0.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.erl.engine-2.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.common-2.3.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.egl.engine-2.3.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.emc.emf-2.3.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.eol.engine-2.3.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/项目代码/所依赖的jar包/org.eclipse.epsilon.erl.engine-2.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
