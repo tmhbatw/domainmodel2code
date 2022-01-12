@@ -7,5 +7,5 @@ import java.lang.annotation.*;
 @Target(ElementType.PACKAGE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Partnership {
-    String anotherPartnershipContext() default " ";
+    String anotherPartnershipContext() default "default";
 }
