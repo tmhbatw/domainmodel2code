@@ -2,12 +2,12 @@
 @BoundedContext(name = "Customer")
 
 
-	 
+
 //该限界上下文对应的上有限界上下文关系
-@UpStreamContext(downStreamContextName = "Cargo", upStreamContextType = UpStreamContextType.Default) 
-	 
+@UpStreamContext( upStreamContextType = UpStreamContextType.Default)
+
 //该限界上下文对应的上有限界上下文关系
-@UpStreamContext(downStreamContextName = "CustomerShare", upStreamContextType = UpStreamContextType.Default) 
+@UpStreamContext(downStreamContextName = "CustomerShare", upStreamContextType = UpStreamContextType.Default)
 
 package main.gen.model.Customer;
 

@@ -71,8 +71,10 @@ public class AggregateValidation {
             int num = 0;
             while (elementIterator1.hasNext()) {
                 PackagedElement packagedElement1 = elementIterator1.next();
-                if (Support.isAggregatePart(packagedElement1, xmi) || Support.isAggregateRoot(packagedElement1, xmi)) ;
-                else return false;
+                if (Support.isAggregatePart(packagedElement1, xmi) || Support.isAggregateRoot(packagedElement1, xmi))
+                    ;
+                else
+                    return false;
             }
         }
 

@@ -566,6 +566,7 @@ public class Code2Model {
         String[] para=parameter.split(",");
 
         for(String p:para){
+            System.out.println(p);
             String[] pa=p.trim().split("=");
             if(pa[1].startsWith("class ")){
                 pa[1]=pa[1].substring(6);
