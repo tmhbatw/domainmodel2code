@@ -143,8 +143,6 @@ public class Code2Model {
 
                     String upStreamContextType = "Default";
                     String upStreamContextName = getValueByName("upStreamContextName", annotation.parameters);
-                    System.out.println(annotation.parameters);
-                    System.out.println(upStreamContextName);
 
                     if(packageInfoMap.containsKey(upStreamContextName)){
                         MyPackage myPackage1=packageInfoMap.get(upStreamContextName);
@@ -156,8 +154,7 @@ public class Code2Model {
                             }
                         }
                     }
-                    
-                    System.out.println(packageName+" "+upStreamContextName);
+
 
                     bf.write(packageRealNameMap.get(packageName)+"\""+downStreamContextType+"\""+".[#Black].>"+
                             "\""+upStreamContextType+"\""+packageRealNameMap.get(upStreamContextName));
@@ -165,7 +162,6 @@ public class Code2Model {
                 }
             }
         }
-        System.out.println(packageRealNameMap);
 
 
         bf.write("@enduml\n");
@@ -387,8 +383,9 @@ public class Code2Model {
 
 
             int startIndex=0;
+            String modifier = "default";
             if(s[startIndex].equals("private")||s[startIndex].equals("public")||s[startIndex].equals("protected")){
-                startIndex++;
+                modifier = s[startIndex++];
             }
 
             //˵����ǰ�����������Ϊ�Լ������ԣ������˹�����ϵ
@@ -404,7 +401,7 @@ public class Code2Model {
             String n=fieldName[fieldName.length-1];
             fieldsName.add(n);
 
-            fields.add(new MyField(t,n));
+            fields.add(new MyField(t,n,modifier));
         }
 
         //��ȡ��ǰ��ķ���
@@ -566,7 +563,6 @@ public class Code2Model {
         String[] para=parameter.split(",");
 
         for(String p:para){
-            System.out.println(p);
             String[] pa=p.trim().split("=");
             if(pa[1].startsWith("class ")){
                 pa[1]=pa[1].substring(6);

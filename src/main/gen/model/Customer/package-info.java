@@ -4,7 +4,7 @@
 
 
 //该限界上下文对应的上有限界上下文关系
-@UpStreamContext( upStreamContextType = UpStreamContextType.Default)
+@UpStreamContext( upStreamContextType = UpStreamContextType.Default,  downStreamContextName = "Location")
 
 //该限界上下文对应的上有限界上下文关系
 @UpStreamContext(downStreamContextName = "CustomerShare", upStreamContextType = UpStreamContextType.Default)

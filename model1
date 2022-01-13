@@ -5,10 +5,10 @@ package "<<SharedKernel>>\nLocationShare" {
 package "<<BoundedContext>>\nCargo" {
 	class Cargo
 	class CargoRepository
-	class DeliverySepcification
 	class HandlingEvent
 	class Itinerary
 	class Leg
+	class DeliverySepcification
 }
 package "<<BoundedContext>>\nCustomer" {
 	class Customer
@@ -18,9 +18,9 @@ package "<<SharedKernel>>\nCustomerShare" {
 	class CustomerShare
 }
 package "<<BoundedContext>>\nVoyage" {
+	class VoyageFactory
 	class CarrierMovement
 	class Voyage
-	class VoyageFactory
 }
 package "<<BoundedContext>>\nLocation" {
 	class Location
@@ -32,8 +32,8 @@ class CargoRepository <<Repository>> ##black{
 __
 
 __
-	void findByName(String name)
-	void findByTrackingId(String trackingId)
+	void findByName(String arg0)
+	void findByTrackingId(String arg0)
 
 }
 class CustomerRepository <<Repository>> ##black{
@@ -42,8 +42,8 @@ class CustomerRepository <<Repository>> ##black{
 __
 
 __
-	void findByName(String name)
-	void findByCustomerId(String customerId)
+	void findByName(String arg0)
+	void findByCustomerId(String arg0)
 
 }
 class Voyage <<AggregateRoot,Entity>> ##black{
@@ -61,7 +61,7 @@ class VoyageFactory <<Factory>> ##black{
 __
 
 __
-	Voyage createVoyage(Voyage value)
+	Voyage createVoyage(Voyage arg0)
 
 }
 class Customer <<Entity>> ##black{
@@ -100,7 +100,7 @@ __
 
 __
 	String getCustomerId()
-	void setCustomerId(String cur)
+	void setCustomerId(String arg0)
 
 }
 class Leg <<AggregatePart,ValueObject>> ##black{
@@ -130,7 +130,7 @@ class LocationService <<DomainService>> ##black{
 __
 
 __
-	void resolveByPortCode(String code)
+	void resolveByPortCode(String arg0)
 
 }
 class LocationShared <<ValueObject>> ##black{
@@ -152,15 +152,6 @@ __
 __
 
 }
-class DeliverySepcification <<AggregatePart,ValueObject>> ##black{
-	aggregateRootType:Cargo
-
-__
-	Date arriveDeadline
-
-__
-
-}
 class HandlingEvent <<AggregatePart,Entity>> ##black{
 	aggregateRootType:Cargo
 	identifier:handlingEventId
@@ -168,6 +159,15 @@ class HandlingEvent <<AggregatePart,Entity>> ##black{
 __
 	Date completionTime
 	String handlingEventId
+
+__
+
+}
+class DeliverySepcification <<AggregatePart,ValueObject>> ##black{
+	aggregateRootType:Cargo
+
+__
+	Date arriveDeadline
 
 __
 

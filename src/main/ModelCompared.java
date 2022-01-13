@@ -35,19 +35,19 @@ public class ModelCompared {
 
     private void compareModel(String target,Map<String,MyPackage> packageInfoMap,Map<String,MyPackage> packageInfoMap2,
                               Map<String,MyClass> classInfoMap, Map<String,MyClass> classInfoMap2) throws Exception{
-        //йДЁЖх╚╡©╣дпео╒╣╫р╩╦Жнд╪Чжпё╛нд╪Ч╣д╦Яй╫╫╚бЗвЦplantumlр╙гС╣д╦Яй╫ё╛иЗЁи╣днд╪Чм╗╧ЩplantUml╫Ьппу╧й╬
+        //О©╫О©╫О©╫х╚О©╫О©╫О©╫О©╫О©╫О©╫о╒О©╫О©╫р╩О©╫О©╫О©╫д╪О©╫О©╫пёО©╫О©╫д╪О©╫О©╫д╦О©╫й╫О©╫О©╫О©╫О©╫О©╫О©╫plantumlр╙О©╫О©╫д╦О©╫й╫О©╫О©╫О©╫О©╫О©╫и╣О©╫О©╫д╪О©╫м╗О©╫О©╫plantUmlО©╫О©╫О©╫О©╫у╧й╬
 
         File f=new File(target);
         f.createNewFile();
 
         BufferedWriter bf=new BufferedWriter(new FileWriter(f));
 
-        //plantuml╣д©╙й╪вж╥Ш╢╝
+        //plantumlО©╫д©О©╫й╪О©╫ж╥О©╫О©╫О©╫
         bf.write("@startuml"+"\n");
 
-        //ртplantuml╣дсО╥╗п╢хКmodelнд╪Чжп
+        //О©╫О©╫plantumlО©╫О©╫О©╫О╥╗п╢О©╫О©╫modelО©╫д╪О©╫О©╫О©╫
 
-        //йвох╦Ьц©р╩╦ЖjavaюЮр╩╦Жль╤╗╣д╥Ш╨е
+        //О©╫О©╫О©╫х╦О©╫ц©р╩О©╫О©╫javaО©╫О©╫р╩О©╫О©╫О©╫ь╤О©╫О©╫д╥О©╫О©╫О©╫
         Map<String,String> packageFlagMap1 = new HashMap<>();
         Map<String,String> classFlagMap1 = new HashMap<>();
         for(String key:packageInfoMap.keySet()){
@@ -59,7 +59,7 @@ public class ModelCompared {
             }
         }
 
-        //п╢хК╩Ы╠╬дёпм╣д╟Эпео╒
+        //п╢О©╫О©╫О©╫О©╫О©╫дёО©╫м╣д╟О©╫О©╫О©╫о╒
         for(String packageName:packageInfoMap.keySet()){
             MyPackage cur=packageInfoMap.get(packageName);
             String firstLine = "package "+"\"<<"+getPackageType(cur.annotations)+">>\\n"
@@ -73,20 +73,20 @@ public class ModelCompared {
             bf.write("}"+"\n");
         }
 
-        //сцю╢╠ё╢Фря╬╜╢╢╫╗╧Щ╣дк╚оР╧ьа╙╧ьо╣
+        //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫я╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫к╚О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣
         Set<String> existAssociation=new HashSet<>();
-        //сцсз╠ё╢Фрюю╣╧ьо╣╨м╧ьа╙╧ьо╣
+        //О©╫О©╫О©╫з╠О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣О©╫м╧О©╫О©╫О©╫О©╫О©╫о╣
         Set<String> association = new HashSet<>();
         Set<String> depend = new HashSet<>();
 
-        //п╢хКоч╫Гиообнддз╣дц©р╩╦ЖаЛсР╤тоС╣ддёпм
+        //п╢О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫з╣О©╫ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫дёО©╫О©╫
         for(String className:classInfoMap.keySet()){
             MyClass cur=classInfoMap.get(className);
 
             bf.write("class "+classFlagMap1.get(className)
                     +" <<"+getClassAnnotationsName(cur.annotations)+">> ##black{"+"\n");
 
-            //╤тсзц©р╩╦ЖаЛсР╤тоСё╛йвоху╧й╬кЭ╤тс╕т╙╦едН╣д╠Й╪г
+            //О©╫О©╫О©╫О©╫ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫у╧й╬О©╫О©╫О©╫О©╫с╕т╙О©╫О©╫О©╫О©╫д╠О©╫О©╫
             for(MyAnnotation an:cur.annotations){
                 List<MyAnnotationParameter> curList=an.parameters;
                 for(MyAnnotationParameter myAnnotationParameter:curList){
@@ -101,13 +101,13 @@ public class ModelCompared {
             }
 
             bf.write("\n__\n");
-            //фД╢ну╧й╬ц©р╩╦ЖаЛсР╤тоС╤тс╕╟Э╨╛╣дйТпт
+            //О©╫О©╫О©╫у╧й╬ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫с╕О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
             for(MyField myField:cur.fields){
                 bf.write(	"\t"+myField.type+" "+myField.name+"\n");
             }
 
             bf.write("\n__\n");
-            //вН╨Су╧й╬ц©р╩╦ЖаЛсР╤тоСкЫ╟Э╨╛╣д╥╫╥╗
+            //О©╫О©╫О©╫у╧й╬ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╥О©╫О©╫О©╫
             for(MyMethod myMethod:cur.methods){
                 bf.write("\t"+myMethod.returnType+" "+myMethod.methodName+"(");
                 bf.write(getClassMethodParameters(myMethod.parameters)+")"+"\n");
@@ -117,10 +117,10 @@ public class ModelCompared {
 
 
 
-        //п╢хКдёпмж╝╪Д╣дрюю╣╧ьо╣
+        //п╢О©╫О©╫дёО©╫О©╫ж╝О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣
         for(String className : classInfoMap.keySet()){
             MyClass cur=classInfoMap.get(className);
-            //╣╠дёпмж╝╪Д╢Фтзя╜╩╥рюю╣й╠ё╛с╕╦ц╫Ьпп╠╗╢М
+            //О©╫О©╫дёО©╫О©╫ж╝О©╫О©╫О©╫О©╫О©╫я╜О©╫О©╫О©╫О©╫О©╫О©╫й╠О©╫О©╫с╕О©╫ц╫О©╫О©╫п╠О©╫О©╫О©╫
 
 
 
@@ -132,14 +132,14 @@ public class ModelCompared {
             }
         }
 
-        //п╢хКдёпмж╝╪Д╣д╧ьа╙╧ьо╣
+        //п╢О©╫О©╫дёО©╫О©╫ж╝О©╫О©╫д╧О©╫О©╫О©╫О©╫О©╫о╣
         for(String className :classInfoMap.keySet()){
             MyClass cur=classInfoMap.get(className);
 
             for(String ass:cur.associations){
-                //к╚оР╧ьа╙╣дгИ©Ж
+                //к╚О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
                 if(classInfoMap.get(ass).associations.contains(className)){
-                    //ря╬╜╫╗а╒╧Щк╚оР╧ьа╙╧ьо╣ё╛тРлЬ╧ЩуБлУ╧ьо╣
+                    //О©╫я╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫к╚О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣
                     String add= getString(ass,className);
                     if(existAssociation.contains(add)) {
                         continue;
@@ -149,7 +149,7 @@ public class ModelCompared {
                     ass = classFlagMap1.get(ass);
                     bf.write(classFlagMap1.get(className)+"-[#Black]-"+ass+"\n");
                 }
-                //╣╔оР╧ьа╙╣дгИ©Ж
+                //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
                 else{
                     association.add(className+" "+ass);
                     ass = classFlagMap1.get(ass);
@@ -159,7 +159,7 @@ public class ModelCompared {
         }
 
 
-        //иЗЁисцсз╤т╠х╣ддёпм
+        //О©╫О©╫О©╫О©╫О©╫О©╫О©╫з╤т╠х╣О©╫дёО©╫О©╫
         Map<String,String> packageFlagMap2=new HashMap<>();
         Map<String,String> classFlagMap2=new HashMap<>();
 
@@ -180,7 +180,7 @@ public class ModelCompared {
             }
         }
 
-        //п╢хК╩Ы╠╬дёпм╣д╟Эпео╒
+        //п╢О©╫О©╫О©╫О©╫О©╫дёО©╫м╣д╟О©╫О©╫О©╫о╒
         for(String packageName:packageFlagMap2.keySet()){
             MyPackage cur=packageInfoMap2.containsKey(packageName)?
                     packageInfoMap2.get(packageName):packageInfoMap.get(packageName);
@@ -204,22 +204,22 @@ public class ModelCompared {
             bf.write("}"+"\n");
         }
 
-        //п╢хК╤т╠хдёпм╣дц©р╩╦ЖаЛсР╤тоС
+        //п╢О©╫О©╫т╠О©╫дёО©╫м╣О©╫ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
         for(String className:classFlagMap2.keySet()){
 
-            //ж╓цВуБйги╬ЁЩ╣д╤тоС
+            //ж╓О©╫О©╫О©╫О©╫О©╫О©╫и╬О©╫О©╫О©╫д╤О©╫О©╫О©╫
             if(!classInfoMap2.containsKey(className)){
                 writeClass2Model(classInfoMap.get(className),bf,classFlagMap2,"Red");
                 continue;
             }
-            //ж╓цВуБйгпбтЖ╣д╤тоС
+            //ж╓О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╤О©╫О©╫О©╫
             if(!classInfoMap.containsKey(className)){
                 writeClass2Model(classInfoMap.get(className),bf,classFlagMap2,"Green");
                 continue;
             }
 
-            //фДкШгИ©ЖобпХр╙╤туБа╫╦Жclass╫Ьпп╤т╠х
-            //╣╠а╫╦Ж╤тоСспр╩╣Ц╡╩м╛й╠ё╛пХр╙╫╚╤тоСжцн╙ю╤и╚ё╩
+            //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫р╙О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫classО©╫О©╫О©╫п╤т╠О©╫
+            //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫р╩О©╫Ц╡╩м╛й╠О©╫О©╫О©╫О©╫р╙О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫н╙О©╫О©╫и╚О©╫О©╫
             MyClass myClass1=classInfoMap.get(className);
             MyClass myClass2=classInfoMap2.get(className);
             boolean flag=isSame(myClass1,myClass2);
@@ -229,7 +229,7 @@ public class ModelCompared {
             bf.write("class "+classFlagMap2.get(className)
                     +" <<"+getClassAnnotationsName(myClass2.annotations)+">> ##"+color+"{"+"\n");
 
-            //╤тсзц©р╩╦ЖаЛсР╤тоСё╛йвоху╧й╬кЭ╤тс╕т╙╦едН╣д╠Й╪г
+            //О©╫О©╫О©╫О©╫ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫у╧й╬О©╫О©╫О©╫О©╫с╕т╙О©╫О©╫О©╫О©╫д╠О©╫О©╫
             List<MyAnnotationParameter> l2=new ArrayList<>();
             for(MyAnnotation an:myClass2.annotations){
                 l2.addAll(an.parameters);
@@ -264,7 +264,7 @@ public class ModelCompared {
             }
 
             bf.write("\n__\n");
-            //фД╢ну╧й╬ц©р╩╦ЖаЛсР╤тоС╤тс╕╟Э╨╛╣дйТпт
+            //О©╫О©╫О©╫у╧й╬ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫с╕О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
             for(MyField m1:myClass2.fields){
                 String add="+";
                 for(MyField m2:myClass1.fields){
@@ -289,7 +289,7 @@ public class ModelCompared {
                 bf.write(	"\t"+"-"+m1.type+" "+m1.name+"\n");
             }
             bf.write("\n__\n");
-            //вН╨Су╧й╬ц©р╩╦ЖаЛсР╤тоСкЫ╟Э╨╛╣д╥╫╥╗
+            //О©╫О©╫О©╫у╧й╬ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╥О©╫О©╫О©╫
             for(MyMethod m1:myClass2.methods){
                 String add = "+";
                 for(MyMethod m2:myClass1.methods){
@@ -321,34 +321,34 @@ public class ModelCompared {
         }
 
 
-        //сцю╢╠ё╢Фря╬╜╢╢╫╗╧Щ╣дк╚оР╧ьа╙╧ьо╣
+        //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫я╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫к╚О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣
         Set<String> existAssociation2=new HashSet<>();
-        //сцсз╠ё╢Фрюю╣╧ьо╣╨м╧ьа╙╧ьо╣
+        //О©╫О©╫О©╫з╠О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣О©╫м╧О©╫О©╫О©╫О©╫О©╫о╣
         Set<String> association2 = new HashSet<>();
         Set<String> depend2 = new HashSet<>();
 
-        //п╢хКдёпмж╝╪Д╣дрюю╣╧ьо╣
+        //п╢О©╫О©╫дёО©╫О©╫ж╝О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣
         for(String className : classInfoMap2.keySet()){
             MyClass cur=classInfoMap.get(className);
-            //╣╠дёпмж╝╪Д╢Фтзя╜╩╥рюю╣й╠ё╛с╕╦ц╫Ьпп╠╗╢М
+            //О©╫О©╫дёО©╫О©╫ж╝О©╫О©╫О©╫О©╫О©╫я╜О©╫О©╫О©╫О©╫О©╫О©╫й╠О©╫О©╫с╕О©╫ц╫О©╫О©╫п╠О©╫О©╫О©╫
 
 
             for(String dependency:cur.dependency){
                 depend2.add(className+" "+dependency);
             }
         }
-        //п╢хК╤т╠хдёпмж╝╪Д╣д╧ьа╙╧ьо╣
+        //п╢О©╫О©╫т╠О©╫дёО©╫О©╫ж╝О©╫О©╫д╧О©╫О©╫О©╫О©╫О©╫о╣
         for(String className :classInfoMap2.keySet()){
             MyClass cur=classInfoMap.get(className);
 
             for(String ass:cur.associations){
-                //к╚оР╧ьа╙╣дгИ©Ж
+                //к╚О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
                 if(classInfoMap2.get(ass).associations.contains(className)){
-                    //ря╬╜╫╗а╒╧Щк╚оР╧ьа╙╧ьо╣ё╛тРлЬ╧ЩуБлУ╧ьо╣
+                    //О©╫я╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫к╚О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣
                     String add= getString(ass,className);
                     existAssociation2.add(add);
                 }
-                //╣╔оР╧ьа╙╣дгИ©Ж
+                //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
                 else{
                     association2.add(className+" "+ass);
                 }
@@ -396,7 +396,7 @@ public class ModelCompared {
 
         String add = color.equals("Green")?"+":"-";
 
-        //╤тсзц©р╩╦ЖаЛсР╤тоСё╛йвоху╧й╬кЭ╤тс╕т╙╦едН╣д╠Й╪г
+        //О©╫О©╫О©╫О©╫ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫у╧й╬О©╫О©╫О©╫О©╫с╕т╙О©╫О©╫О©╫О©╫д╠О©╫О©╫
         for(MyAnnotation an:cur.annotations){
             List<MyAnnotationParameter> curList=an.parameters;
             for(MyAnnotationParameter myAnnotationParameter:curList){
@@ -411,13 +411,13 @@ public class ModelCompared {
         }
 
         bf.write("\n__\n");
-        //фД╢ну╧й╬ц©р╩╦ЖаЛсР╤тоС╤тс╕╟Э╨╛╣дйТпт
+        //О©╫О©╫О©╫у╧й╬ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫с╕О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
         for(MyField myField:cur.fields){
             bf.write(	"\t"+add+myField.type+" "+myField.name+"\n");
         }
 
         bf.write("\n__\n");
-        //вН╨Су╧й╬ц©р╩╦ЖаЛсР╤тоСкЫ╟Э╨╛╣д╥╫╥╗
+        //О©╫О©╫О©╫у╧й╬ц©р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╥О©╫О©╫О©╫
         for(MyMethod myMethod:cur.methods){
             bf.write("\t"+add+myMethod.returnType+" "+myMethod.methodName+"(");
             bf.write(getClassMethodParameters(myMethod.parameters)+")"+"\n");
@@ -426,7 +426,7 @@ public class ModelCompared {
     }
 
 
-    //еп╤оа╫╦ЖclassInfoюЮйг╡╩йгмЙх╚р╩жб
+    //О©╫п╤О©╫О©╫О©╫О©╫О©╫classInfoО©╫О©╫О©╫г╡О©╫О©╫О©╫О©╫О©╫х╚р╩О©╫О©╫
     private boolean isSame(MyClass myClass1,MyClass myClass2){
         if(!myClass1.name.equals(myClass2.name))
             return false;
@@ -528,10 +528,10 @@ public class ModelCompared {
         Map<String,String> packageRealNameMap2=new HashMap<>();
 
         for(String packageName : packageInfoMap2.keySet()){
-            //а╫╦Жу╫бтдёй╫╣доч╫ГиообндоЮм╛
+            //О©╫О©╫О©╫О©╫у╫О©╫О©╫дёй╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫м╛
             String color = "white";
 
-            //бли╚╢З╠МуБ╦Жоч╫ГиообндйгпбтЖ╣д
+            //О©╫О©╫и╚О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
             if(!packageInfoMap.containsKey(packageName)){
                 color = "GreenYellow";
             }
@@ -553,7 +553,7 @@ public class ModelCompared {
         for(String packageName : packageInfoMap.keySet()){
             String color = "LightPink";
 
-            //╠МцВтзпб╣доч╫Гиообнджпё╛и╬ЁЩакуБ╦Ж╟Э
+            //О©╫О©╫О©╫О©╫О©╫О©╫О©╫б╣О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫пёО©╫и╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
             if(!packageInfoMap2.containsKey(packageName)){
                 MyPackage cur=packageInfoMap.get(packageName);
                 String realPackageName = "\""+"<<"+getPackageType(cur.annotations)+">>"+"\\n"+packageName+"\"";
@@ -572,17 +572,17 @@ public class ModelCompared {
         }
 
 
-        //сцю╢╢Ф╥еря╬╜╢╢╫╗╧ьо╣╣доч╫Гиообндж╝╪Д╣д╩О╟И╧ьо╣
+        //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫я╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╣О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ж╝О©╫О©╫д╩О©╫О©╫О©╫о╣
         Set<String> partnership=new HashSet<>();
 
-        //сцю╢╢Ф╥еоч╫Гиообндж╝╪Д╣диообсн╧ьо╣
+        //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ж╝О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫н╧О©╫о╣
         Map<String,String> upDownRelationship = new HashMap();
 
-        //иЗЁиоч╫Гиообндж╝╪Д╣д╧ьо╣
+        //О©╫О©╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ж╝О©╫О©╫д╧О©╫о╣
         for(String packageName : packageInfoMap.keySet()) {
             MyPackage myPackage=packageInfoMap.get(packageName);
             for(MyAnnotation annotation: myPackage.annotations) {
-                //уБжжгИ©Жс╕╦цж╩спр╩╦Ж╡нйЩ
+                //О©╫О©╫О©╫О©╫О©╫О©╫О©╫с╕О©╫О©╫ж╩О©╫О©╫р╩О©╫О©╫О©╫О©╫О©╫О©╫
                 if(annotation.name.equals("Partnership")){
                     String anotherContext=annotation.parameters.get(0).value;
 
@@ -591,7 +591,7 @@ public class ModelCompared {
 
                 }
 
-                //╣╠уБ╦Жоч╫Гиообндйгр╩╦Жобсноч╫Гиообндй╠ё╛╫╗а╒оч╫Гиообндиообсн╧ьо╣
+                //О©╫О©╫О©╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫й╠О©╫О©╫О©╫О©╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫н╧О©╫о╣
                 if(annotation.name.equals("DownStreamContext")){
                     String downStreamContextType = getValueByName("downStreamContextType",annotation.parameters);
 
@@ -617,11 +617,11 @@ public class ModelCompared {
 
         Set<String> partnership2=new HashSet<>();
         Map<String,String> upDownRelationship2=new HashMap<>();
-        //иЗЁиаМр╩╦Жоч╫Гиообндж╝╪Д╣д╧ьо╣
+        //О©╫О©╫О©╫О©╫О©╫О©╫р╩О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ж╝О©╫О©╫д╧О©╫о╣
         for(String packageName : packageInfoMap2.keySet()) {
             MyPackage myPackage=packageInfoMap2.get(packageName);
             for(MyAnnotation annotation: myPackage.annotations) {
-                //уБжжгИ©Жс╕╦цж╩спр╩╦Ж╡нйЩ
+                //О©╫О©╫О©╫О©╫О©╫О©╫О©╫с╕О©╫О©╫ж╩О©╫О©╫р╩О©╫О©╫О©╫О©╫О©╫О©╫
                 if(annotation.name.equals("Partnership")){
                     String anotherContext=annotation.parameters.get(0).value;
 
@@ -630,7 +630,7 @@ public class ModelCompared {
 
                 }
 
-                //╣╠уБ╦Жоч╫Гиообндйгр╩╦Жобсноч╫Гиообндй╠ё╛╫╗а╒оч╫Гиообндиообсн╧ьо╣
+                //О©╫О©╫О©╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫й╠О©╫О©╫О©╫О©╫О©╫О©╫О©╫ч╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫н╧О©╫о╣
                 if(annotation.name.equals("DownStreamContext")){
                     String downStreamContextType = getValueByName("downStreamContextType",annotation.parameters);
 
@@ -781,7 +781,7 @@ public class ModelCompared {
 
     private List<String> changeClassNameFormat(List<String> list){
         List<String> l=new ArrayList<>();
-        //х╔жь
+        //х╔О©╫О©╫
         list=new ArrayList<>(new HashSet<>(list));
         for(String cur:list){
             l.add(cur.split("\\.")[cur.split("\\.").length-1]);

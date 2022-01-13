@@ -13,7 +13,7 @@ public enum Constraint {
     //DomainEvent
     CONSTRAINT_05(5,"领域事件有且只有一个唯一标识"),
     CONSTRAINT_06(6,"领域事件的标识应该被设计成一个或几个它的属性的组合"),
-    CONSTRAINT_07(7,"领域事件应该包含一个事件戳"),
+    CONSTRAINT_07(7,"领域事件应该包含一个时间戳"),
     CONSTRAINT_08(8,"领域事件应该包含领域事件的生产者和接受者"),
     CONSTRAINT_09(9,"领域事件是不可变的"),
 
