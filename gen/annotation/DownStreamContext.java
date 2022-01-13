@@ -7,6 +7,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(DownStreamContexts.class)
 public @interface DownStreamContext {
-    String upStreamContextName() default "";
+    String upStreamContextName() default "default";
     DownStreamContextType downStreamContextType() default DownStreamContextType.Default;
 }
